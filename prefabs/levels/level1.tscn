@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c2p3hpxnytcvs"]
+[gd_scene load_steps=23 format=3 uid="uid://c2p3hpxnytcvs"]
 
 [ext_resource type="Material" uid="uid://bcsx6o6psjvui" path="res://materials/asphalt.tres" id="1_7knip"]
 [ext_resource type="Script" path="res://scripts/Goal.gd" id="1_gyttf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/LevelController.gd" id="3_n4y5v"]
 [ext_resource type="Script" path="res://scripts/CameraFollow.gd" id="5_x4ba0"]
 [ext_resource type="Script" path="res://scripts/Nails.gd" id="6_86kv5"]
+[ext_resource type="PackedScene" uid="uid://d0wxb1v46ogjo" path="res://prefabs/props/cone.tscn" id="7_rmmtu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5fmg0"]
 size = Vector3(2, 4, 3)
@@ -53,7 +54,14 @@ size = Vector3(2, 0.1, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_mrqa1"]
 size = Vector3(1.8717, 1, 0.865967)
 
+[sub_resource type="BoxMesh" id="BoxMesh_18j3c"]
+size = Vector3(1.5, 0.65, 0.1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_736lo"]
+points = PackedVector3Array(-0.761756, -0.336905, -0.0619048, 0.761756, 0.329762, 0.0571429, 0.761756, 0.329762, -0.0619048, -0.761756, 0.329762, 0.0571429, 0.761756, -0.336905, 0.0571429, 0.761756, -0.336905, -0.0619048, -0.761756, 0.329762, -0.0619048, -0.761756, -0.336905, 0.0571429)
+
 [node name="Level" type="Node3D"]
+metadata/level_name = "Gotta go right"
 
 [node name="Goal" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.173635, 0.403878, -5.78551)
@@ -230,3 +238,19 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00734329, -0.0273962, 0.0098877)
 shape = SubResource("BoxShape3D_mrqa1")
+
+[node name="fence" type="RigidBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.49395, 0.340907, 4.35058)
+mass = 5.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="fence"]
+mesh = SubResource("BoxMesh_18j3c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="fence"]
+shape = SubResource("ConvexPolygonShape3D_736lo")
+
+[node name="cone" parent="." instance=ExtResource("7_rmmtu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.663977, 0.223912, 7.85567)
+
+[node name="cone2" parent="." instance=ExtResource("7_rmmtu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143959, 0.223912, 7.85567)

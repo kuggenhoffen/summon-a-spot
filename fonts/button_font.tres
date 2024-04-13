@@ -1,0 +1,4 @@
+[gd_resource type="SystemFont" format=3 uid="uid://7da4r7pmsgxw"]
+
+[resource]
+font_names = PackedStringArray("Tahoma")
