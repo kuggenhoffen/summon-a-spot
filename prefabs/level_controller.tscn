@@ -1,0 +1,418 @@
+[gd_scene load_steps=16 format=3 uid="uid://bjhp0xarpd1sm"]
+
+[ext_resource type="Script" path="res://scripts/LevelController.gd" id="1_vbixi"]
+[ext_resource type="SystemFont" uid="uid://7da4r7pmsgxw" path="res://fonts/button_font.tres" id="2_8ai13"]
+[ext_resource type="Script" path="res://scripts/ScorePanelHandler.gd" id="3_fuek3"]
+[ext_resource type="PackedScene" uid="uid://kwekv4ndcl60" path="res://prefabs/ui/medal_showcase.tscn" id="4_cd5ah"]
+[ext_resource type="StyleBox" uid="uid://drnkh7rc7uga8" path="res://themes/box_style_button_flat.tres" id="4_jgj4i"]
+[ext_resource type="Texture2D" uid="uid://j3jj5e4xevey" path="res://textures/medal.png" id="4_o5htq"]
+[ext_resource type="Script" path="res://scripts/MedalReveal.gd" id="5_jk0yn"]
+[ext_resource type="StyleBox" uid="uid://cjxq1drapt3uk" path="res://themes/box_style_button_hover.tres" id="5_rnj51"]
+[ext_resource type="Script" path="res://prefabs/PausePanelHandler.gd" id="6_e7pws"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gyyf"]
+content_margin_left = 975.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_imehs"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.368627)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pjk0m"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yoios"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.368627)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1kob"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5q7sq"]
+
+[node name="LevelController" type="Node"]
+script = ExtResource("1_vbixi")
+
+[node name="CountdownLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.0
+offset_top = -330.0
+offset_right = 41.0
+offset_bottom = -148.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 10
+theme_override_constants/outline_size = 50
+theme_override_constants/shadow_outline_size = 60
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 150
+text = "3"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -771.0
+offset_bottom = 44.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="CrashLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2gyyf")
+text = "+5 tire pop"
+
+[node name="TimerLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -41.0
+offset_right = 41.0
+offset_bottom = 182.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 20
+theme_override_constants/shadow_outline_size = 20
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 80
+text = "0"
+horizontal_alignment = 1
+
+[node name="ScorePanel" type="PanelContainer" parent="."]
+process_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_fuek3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScorePanel"]
+layout_mode = 2
+
+[node name="Panel4" type="PanelContainer" parent="ScorePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="Label" type="Label" parent="ScorePanel/VBoxContainer/Panel4"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+text = "Level finished"
+
+[node name="Panel3" type="PanelContainer" parent="ScorePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="TimeContainer" type="HBoxContainer" parent="ScorePanel/VBoxContainer/Panel3"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label2" type="Label" parent="ScorePanel/VBoxContainer/Panel3/TimeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 70
+text = "Time:"
+horizontal_alignment = 2
+
+[node name="TimeLabel" type="Label" parent="ScorePanel/VBoxContainer/Panel3/TimeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 70
+
+[node name="Panel5" type="PanelContainer" parent="ScorePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="PenaltiesContainer" type="HBoxContainer" parent="ScorePanel/VBoxContainer/Panel5"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label2" type="Label" parent="ScorePanel/VBoxContainer/Panel5/PenaltiesContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 70
+text = "Penalties:"
+horizontal_alignment = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ScorePanel/VBoxContainer/Panel5/PenaltiesContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_pjk0m")
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="PenaltyItemContainer" type="VBoxContainer" parent="ScorePanel/VBoxContainer/Panel5/PenaltiesContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TotalPanel" type="PanelContainer" parent="ScorePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="TotalContainer" type="HBoxContainer" parent="ScorePanel/VBoxContainer/TotalPanel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label2" type="Label" parent="ScorePanel/VBoxContainer/TotalPanel/TotalContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 70
+text = "Total:"
+horizontal_alignment = 2
+
+[node name="TotalLabel" type="Label" parent="ScorePanel/VBoxContainer/TotalPanel/TotalContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 70
+
+[node name="TotalPanel2" type="PanelContainer" parent="ScorePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="TotalContainer" type="HBoxContainer" parent="ScorePanel/VBoxContainer/TotalPanel2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="MedalReveal" type="TextureRect" parent="ScorePanel/VBoxContainer/TotalPanel2/TotalContainer"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture = ExtResource("4_o5htq")
+expand_mode = 5
+script = ExtResource("5_jk0yn")
+
+[node name="Panel6" type="PanelContainer" parent="ScorePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="MedalShowcase" parent="ScorePanel/VBoxContainer/Panel6" instance=ExtResource("4_cd5ah")]
+layout_mode = 2
+
+[node name="Panel2" type="PanelContainer" parent="ScorePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_yoios")
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="ScorePanel/VBoxContainer/Panel2"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MenuBtn" type="Button" parent="ScorePanel/VBoxContainer/Panel2/ButtonsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("4_jgj4i")
+theme_override_styles/hover = ExtResource("5_rnj51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1kob")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5q7sq")
+theme_override_styles/focus = ExtResource("5_rnj51")
+text = "Menu"
+
+[node name="RestartBtn" type="Button" parent="ScorePanel/VBoxContainer/Panel2/ButtonsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("4_jgj4i")
+theme_override_styles/hover = ExtResource("5_rnj51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1kob")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5q7sq")
+theme_override_styles/focus = ExtResource("5_rnj51")
+text = "Restart"
+
+[node name="NextLevelBtn" type="Button" parent="ScorePanel/VBoxContainer/Panel2/ButtonsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("4_jgj4i")
+theme_override_styles/hover = ExtResource("5_rnj51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1kob")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5q7sq")
+theme_override_styles/focus = ExtResource("5_rnj51")
+text = "Continue"
+
+[node name="PausePanel" type="PanelContainer" parent="."]
+process_mode = 2
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_e7pws")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PausePanel"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Panel4" type="PanelContainer" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="Label" type="Label" parent="PausePanel/VBoxContainer/Panel4"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+text = "Paused"
+
+[node name="Panel6" type="PanelContainer" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
+
+[node name="Label" type="Label" parent="PausePanel/VBoxContainer/Panel6"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+text = "Gold 1:10 Silver 1:38 Bronze 2:00"
+
+[node name="Panel2" type="PanelContainer" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_yoios")
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="PausePanel/VBoxContainer/Panel2"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MenuBtn" type="Button" parent="PausePanel/VBoxContainer/Panel2/ButtonsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("4_jgj4i")
+theme_override_styles/hover = ExtResource("5_rnj51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1kob")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5q7sq")
+theme_override_styles/focus = ExtResource("5_rnj51")
+text = "Menu"
+
+[node name="RestartBtn" type="Button" parent="PausePanel/VBoxContainer/Panel2/ButtonsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("4_jgj4i")
+theme_override_styles/hover = ExtResource("5_rnj51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1kob")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5q7sq")
+theme_override_styles/focus = ExtResource("5_rnj51")
+text = "Restart"
+
+[node name="ResumeBtn" type="Button" parent="PausePanel/VBoxContainer/Panel2/ButtonsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("2_8ai13")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("4_jgj4i")
+theme_override_styles/hover = ExtResource("5_rnj51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1kob")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5q7sq")
+theme_override_styles/focus = ExtResource("5_rnj51")
+text = "Resume"

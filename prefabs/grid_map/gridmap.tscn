@@ -1,0 +1,93 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmn02f6owprpr"]
+
+[ext_resource type="PackedScene" uid="uid://bh728ep8oe7sk" path="res://asset_sources/gridmap.blend" id="1_5hrwx"]
+[ext_resource type="Material" uid="uid://dkdubmpkfrgit" path="res://materials/gridmap.tres" id="2_u7n54"]
+[ext_resource type="PhysicsMaterial" uid="uid://eitapg0reoqi" path="res://materials/physics_materials/asphalt.tres" id="3_1717e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_prfhl"]
+size = Vector3(2.5, 2.5, 2.5)
+
+[node name="gridmap" instance=ExtResource("1_5hrwx")]
+
+[node name="pspace_t" parent="." index="0"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="pspace_t" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pspace_t/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="pspace_corner_right" parent="." index="1"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="pspace_corner_right" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pspace_corner_right/StaticBody3D2" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="center_line" parent="." index="2"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="center_line" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="center_line/StaticBody3D3" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="pspace_corner_left" parent="." index="3"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="pspace_corner_left" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pspace_corner_left/StaticBody3D4" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="pspace_end" parent="." index="4"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="pspace_end" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pspace_end/StaticBody3D5" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="center_dash" parent="." index="5"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D6" type="StaticBody3D" parent="center_dash" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="center_dash/StaticBody3D6" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="edge_line" parent="." index="6"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D7" type="StaticBody3D" parent="edge_line" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="edge_line/StaticBody3D7" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="empty" parent="." index="7"]
+material_override = ExtResource("2_u7n54")
+surface_material_override/0 = ExtResource("2_u7n54")
+
+[node name="StaticBody3D8" type="StaticBody3D" parent="empty" index="0"]
+physics_material_override = ExtResource("3_1717e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="empty/StaticBody3D8" index="0"]
+shape = SubResource("BoxShape3D_prfhl")
+
+[node name="black" parent="." index="8"]
+surface_material_override/0 = ExtResource("2_u7n54")

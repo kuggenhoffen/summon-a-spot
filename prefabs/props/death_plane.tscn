@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://vfslyt4kcmtt"]
+
+[ext_resource type="Script" path="res://scripts/DeathPlane.gd" id="1_gctve"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q6ban"]
+size = Vector3(185.623, 18.5793, 116.916)
+
+[node name="DeathPlane" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+script = ExtResource("1_gctve")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.38126, 0)
+shape = SubResource("BoxShape3D_q6ban")

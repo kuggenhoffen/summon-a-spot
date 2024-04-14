@@ -1,7 +1,7 @@
 extends Camera3D
 class_name CameraFollow
 
-const LERP_SPEED: float = 1.0
+const LERP_SPEED: float = 2.0
 
 @export var target: Node3D = null
 @export var target_offset: Vector3 = Vector3.ZERO

@@ -1,6 +1,6 @@
 extends Node3D
 
-const level_path: String = "res://prefabs/levels"
+const level_directory: String = "res://prefabs/levels"
 const level_item_ui_prefab: PackedScene = preload("res://prefabs/ui/level_item.tscn")
 
 @export var level_select: Control = null
@@ -13,15 +13,6 @@ const level_item_ui_prefab: PackedScene = preload("res://prefabs/ui/level_item.t
 func _ready():
     show_main_screen()
     populate_levels()
-
-func get_level_name(level_file: String) -> String:
-    var level = ResourceLoader.load(level_path + "/" + level_file)
-    for node_index in range(level.get_state().get_node_count()):
-        if level.get_state().get_node_name(node_index) == "Level":
-            for prop_index in range(level.get_state().get_node_property_count(node_index)):
-                if level.get_state().get_node_property_name(node_index, prop_index) == "metadata/level_name":
-                    return level.get_state().get_node_property_value(node_index, prop_index)
-    return level_file
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -53,9 +44,18 @@ func show_level_select():
     level_select_focus.grab_focus()
 
 func populate_levels():
-    var temp_levels = DirAccess.get_files_at(level_path)
-    for level_file in temp_levels:
+    var scores = ScoreHandler.load_scores()
+    var levels: Array[LevelInfo] = Utils.get_levels()
+    var first_item: Control = null
+    for level_info in levels:
         var level_item = level_item_ui_prefab.instantiate()
-        level_item.level_name = get_level_name(level_file)
         level_select_container.add_child(level_item)
-    level_select_focus = level_select_container.get_child(0)
+        var level_time: float = scores.get(level_info.level_name, 0)
+        level_item.set_level_data(level_time, level_info)
+        level_item.pressed.connect(on_level_item_pressed.bind(level_info.level_path))
+        if first_item == null:
+            first_item = level_item
+    level_select_focus = first_item
+
+func on_level_item_pressed(level_path: String):
+    get_tree().change_scene_to_file(level_path)

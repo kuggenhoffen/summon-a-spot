@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://ci7087cujbi07"]
+[gd_scene load_steps=12 format=3 uid="uid://ci7087cujbi07"]
 
 [ext_resource type="Script" path="res://scripts/TitleController.gd" id="1_ev5ys"]
 [ext_resource type="SystemFont" uid="uid://7da4r7pmsgxw" path="res://fonts/button_font.tres" id="1_vt7hl"]
 [ext_resource type="StyleBox" uid="uid://drnkh7rc7uga8" path="res://themes/box_style_button_flat.tres" id="2_wuktl"]
+[ext_resource type="PackedScene" uid="uid://bfbgipta2pa8f" path="res://prefabs/ui/level_item.tscn" id="5_8mh26"]
 [ext_resource type="StyleBox" uid="uid://cjxq1drapt3uk" path="res://themes/box_style_button_hover.tres" id="6_tfl8d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2j20"]
@@ -15,6 +16,12 @@ bg_color = Color(0.65098, 0.65098, 0.65098, 0.368627)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xpy7"]
 content_margin_top = 300.0
 
+[sub_resource type="InputEventAction" id="InputEventAction_xlhff"]
+action = &"ui_cancel"
+
+[sub_resource type="Shortcut" id="Shortcut_fivke"]
+events = [SubResource("InputEventAction_xlhff")]
+
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("level_select", "level_select_focus", "main_screen", "main_screen_focus", "level_select_container")]
 script = ExtResource("1_ev5ys")
 level_select = NodePath("LevelSelect")
@@ -24,7 +31,6 @@ main_screen_focus = NodePath("Main/VBoxContainer/StartBtn")
 level_select_container = NodePath("LevelSelect/Panel/ScrollContainer/VBoxContainer")
 
 [node name="Main" type="PanelContainer" parent="."]
-visible = false
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -84,6 +90,7 @@ theme_override_styles/focus = ExtResource("6_tfl8d")
 text = "Exit"
 
 [node name="LevelSelect" type="PanelContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -126,6 +133,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="LevelItem" parent="LevelSelect/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("5_8mh26")]
+visible = false
+layout_mode = 2
+
 [node name="Panel2" type="PanelContainer" parent="LevelSelect/Panel"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -151,6 +162,7 @@ theme_override_styles/hover = ExtResource("6_tfl8d")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pjv0h")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4dy3f")
 theme_override_styles/focus = ExtResource("6_tfl8d")
+shortcut = SubResource("Shortcut_fivke")
 text = "Back"
 
 [connection signal="pressed" from="Main/VBoxContainer/StartBtn" to="." method="_on_start_btn_pressed"]

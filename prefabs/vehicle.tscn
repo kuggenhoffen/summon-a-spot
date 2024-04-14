@@ -1,18 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://b41b30lrlc88h"]
+[gd_scene load_steps=20 format=3 uid="uid://b41b30lrlc88h"]
 
 [ext_resource type="Script" path="res://scripts/VehicleController.gd" id="1_ybgjr"]
-[ext_resource type="Material" uid="uid://boiw1lyiot6tu" path="res://materials/vehicle.tres" id="2_8nj6y"]
 [ext_resource type="Script" path="res://scripts/Wheel.gd" id="3_qeyl7"]
 [ext_resource type="Material" uid="uid://3jfbm5sr4tim" path="res://materials/wheel.tres" id="3_vktfw"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_0jnhi"]
-size = Vector3(1, 0.5, 1.5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_iugf0"]
-size = Vector3(1, 0.51, 1)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_u3b1j"]
-points = PackedVector3Array(-0.5, -0.255, -0.5, -0.5, 0.255, -0.5, 0.5, -0.255, -0.5, -0.5, -0.255, 0.5, -0.5, 0.255, 0.5, 0.5, 0.255, -0.5, 0.5, -0.255, 0.5, 0.5, 0.255, 0.5)
+[ext_resource type="PackedScene" uid="uid://c8k2algan7w6k" path="res://prefabs/vehicle_parts/wheel.tscn" id="5_4pwl0"]
+[ext_resource type="Material" uid="uid://bx83eb58w6g5x" path="res://materials/prop_material.tres" id="5_pb2g0"]
+[ext_resource type="PackedScene" uid="uid://bqxf73u2t4y8o" path="res://prefabs/vehicle_parts/mirrors.tscn" id="6_iqwtf"]
+[ext_resource type="PackedScene" uid="uid://crrsdix14pjuw" path="res://prefabs/vehicle_parts/body_sedan.tscn" id="6_is2vy"]
+[ext_resource type="PackedScene" uid="uid://bv0oeo4el2xuv" path="res://prefabs/vehicle_parts/tail_lights.tscn" id="7_c61x3"]
+[ext_resource type="PackedScene" uid="uid://blbck7du68h7a" path="res://prefabs/vehicle_parts/headlights.tscn" id="8_bp7hv"]
+[ext_resource type="PackedScene" uid="uid://4e7hnye4joa8" path="res://prefabs/vehicle_parts/rear_bumper.tscn" id="9_u5hvl"]
+[ext_resource type="PackedScene" uid="uid://dtvvtl06cbmpa" path="res://prefabs/vehicle_parts/front_bumper.tscn" id="10_ip206"]
+[ext_resource type="AudioStream" uid="uid://cf2x5j22r6p1b" path="res://sfx/engine2.wav" id="12_onmil"]
+[ext_resource type="AudioStream" uid="uid://bdbh6bo8lat0p" path="res://sfx/tirepop1.wav" id="13_grhoy"]
+[ext_resource type="AudioStream" uid="uid://24eqv6hswwd5" path="res://sfx/tireflat2.wav" id="13_v1gxe"]
+[ext_resource type="AudioStream" uid="uid://ipx48qxuufcd" path="res://sfx/tirepop2.wav" id="14_6fw7g"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qfu5k"]
 top_radius = 0.2
@@ -23,40 +25,38 @@ height = 0.08
 height = 0.08
 radius = 0.2
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_52182"]
-size = Vector3(1, 0.499939, 1.49359)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5gnlt"]
+points = PackedVector3Array(0.701993, 0.609299, 0.641318, -1.43328, -0.618, -0.680388, -1.43328, -0.618, 0.657731, 1.62528, -0.618, -0.680388, -0.220094, 0.591024, -0.644295, 1.62528, -0.618, 0.657731, -1.44463, -0.0958998, 0.684494, 1.68645, -0.0958998, -0.707151, -1.49445, -0.145738, -0.707151, 0.701993, 0.609299, -0.663976, 1.68645, -0.0958998, 0.684494, -0.220094, 0.591024, 0.621638, -1.44463, -0.0958998, -0.707151, -1.49445, -0.145738, 0.684494)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lxm3c"]
+random_pitch = 1.1
+random_volume_offset_db = 3.04
+streams_count = 2
+stream_0/stream = ExtResource("13_grhoy")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("14_6fw7g")
+stream_1/weight = 1.0
 
 [node name="Vehicle" type="VehicleBody3D" groups=["player"]]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.190082, 0)
-mass = 50.0
+mass = 100.0
+max_contacts_reported = 5
+contact_monitor = true
 script = ExtResource("1_ybgjr")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.251548, 0)
-material_override = ExtResource("2_8nj6y")
-mesh = SubResource("BoxMesh_0jnhi")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, -7.66955e-09, 3.37074e-10, 7.66955e-09, 0.996144, -0.0877295, 3.37081e-10, 0.0877295, 0.996144, -1.00384e-07, 0.563829, -0.215337)
-material_override = ExtResource("2_8nj6y")
-mesh = SubResource("BoxMesh_iugf0")
-skeleton = NodePath("../MeshInstance3D")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, -7.66955e-09, 3.37074e-10, 7.66955e-09, 0.996144, -0.0877295, 3.37081e-10, 0.0877295, 0.996144, -1.00384e-07, 0.563829, -0.215337)
-shape = SubResource("ConvexPolygonShape3D_u3b1j")
-
 [node name="VehicleWheel3D" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57, 0.0676159, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.677, 0.0199096, 0.945)
 use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = 0.05
-wheel_radius = 0.2
-suspension_stiffness = 25.0
+wheel_roll_influence = 0.35
+wheel_radius = 0.275
+wheel_friction_slip = 1.0
+suspension_stiffness = 50.0
 script = ExtResource("3_qeyl7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D"]
 transform = Transform3D(0.0157073, 0.999877, 0, -0.999877, 0.0157073, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 material_override = ExtResource("3_vktfw")
 mesh = SubResource("CylinderMesh_qfu5k")
 
@@ -68,17 +68,23 @@ collision_mask = 2
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CylinderShape3D_d71oa")
 
+[node name="Wheel" parent="VehicleWheel3D" instance=ExtResource("5_4pwl0")]
+transform = Transform3D(-4.37114e-08, 1, 0, 0, 0, -1, -1, -4.37114e-08, 0, 0, 0, 0)
+material_override = ExtResource("5_pb2g0")
+
 [node name="VehicleWheel3D2" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0.0676159, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0.0199096, 0.945)
 use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = 0.05
-wheel_radius = 0.2
-suspension_stiffness = 25.0
+wheel_roll_influence = 0.35
+wheel_radius = 0.275
+wheel_friction_slip = 1.0
+suspension_stiffness = 50.0
 script = ExtResource("3_qeyl7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D2"]
 transform = Transform3D(0.0157073, 0.999877, 0, -0.999877, 0.0157073, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 material_override = ExtResource("3_vktfw")
 mesh = SubResource("CylinderMesh_qfu5k")
 
@@ -90,16 +96,22 @@ collision_mask = 2
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CylinderShape3D_d71oa")
 
+[node name="Wheel2" parent="VehicleWheel3D2" instance=ExtResource("5_4pwl0")]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
+material_override = ExtResource("5_pb2g0")
+
 [node name="VehicleWheel3D3" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57, 0.0676159, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.677142, 0.0199096, -1.09936)
 use_as_traction = true
-wheel_roll_influence = 0.05
-wheel_radius = 0.2
-suspension_stiffness = 25.0
+wheel_roll_influence = 0.35
+wheel_radius = 0.275
+wheel_friction_slip = 0.5
+suspension_stiffness = 50.0
 script = ExtResource("3_qeyl7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D3"]
 transform = Transform3D(0.0157073, 0.999877, 0, -0.999877, 0.0157073, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 material_override = ExtResource("3_vktfw")
 mesh = SubResource("CylinderMesh_qfu5k")
 
@@ -111,16 +123,22 @@ collision_mask = 2
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CylinderShape3D_d71oa")
 
+[node name="Wheel3" parent="VehicleWheel3D3" instance=ExtResource("5_4pwl0")]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
+material_override = ExtResource("5_pb2g0")
+
 [node name="VehicleWheel3D4" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0.0676159, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0.0199096, -1.09893)
 use_as_traction = true
-wheel_roll_influence = 0.05
-wheel_radius = 0.2
-suspension_stiffness = 25.0
+wheel_roll_influence = 0.35
+wheel_radius = 0.275
+wheel_friction_slip = 0.5
+suspension_stiffness = 50.0
 script = ExtResource("3_qeyl7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D4"]
 transform = Transform3D(0.0157073, 0.999877, 0, -0.999877, 0.0157073, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 material_override = ExtResource("3_vktfw")
 mesh = SubResource("CylinderMesh_qfu5k")
 
@@ -132,6 +150,48 @@ collision_mask = 2
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CylinderShape3D_d71oa")
 
+[node name="Wheel4" parent="VehicleWheel3D4" instance=ExtResource("5_4pwl0")]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
+material_override = ExtResource("5_pb2g0")
+
+[node name="BodySedan4" parent="." instance=ExtResource("6_is2vy")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.149946, 0)
+material_override = ExtResource("5_pb2g0")
+
+[node name="Mirrors" parent="BodySedan4" instance=ExtResource("6_iqwtf")]
+material_override = ExtResource("5_pb2g0")
+
+[node name="TailLights" parent="BodySedan4" instance=ExtResource("7_c61x3")]
+material_override = ExtResource("5_pb2g0")
+
+[node name="Headlights" parent="BodySedan4" instance=ExtResource("8_bp7hv")]
+material_override = ExtResource("5_pb2g0")
+
+[node name="RearBumper" parent="BodySedan4" instance=ExtResource("9_u5hvl")]
+material_override = ExtResource("5_pb2g0")
+
+[node name="FrontBumper" parent="BodySedan4" instance=ExtResource("10_ip206")]
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25048, 0.000152588)
-shape = SubResource("BoxShape3D_52182")
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.535651, 0)
+shape = SubResource("ConvexPolygonShape3D_5gnlt")
+
+[node name="EngineAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
+stream = ExtResource("12_onmil")
+
+[node name="FlatAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
+stream = ExtResource("13_v1gxe")
+volume_db = -12.33
+
+[node name="CrashAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
+stream = SubResource("AudioStreamRandomizer_lxm3c")
+max_polyphony = 2
+
+[node name="PopAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
+stream = SubResource("AudioStreamRandomizer_lxm3c")
+volume_db = -11.852
+max_polyphony = 2

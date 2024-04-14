@@ -1,0 +1,425 @@
+[gd_scene load_steps=17 format=3 uid="uid://bn3jhvliay0km"]
+
+[ext_resource type="Script" path="res://scripts/LevelInfo.gd" id="1_utsup"]
+[ext_resource type="PackedScene" uid="uid://bjhp0xarpd1sm" path="res://prefabs/level_controller.tscn" id="2_e1uvh"]
+[ext_resource type="Script" path="res://scripts/Goal.gd" id="3_h3jjq"]
+[ext_resource type="Script" path="res://scripts/CameraFollow.gd" id="4_n51bj"]
+[ext_resource type="PackedScene" uid="uid://b41b30lrlc88h" path="res://prefabs/vehicle.tscn" id="5_k41ix"]
+[ext_resource type="PackedScene" uid="uid://k5emosfsos2t" path="res://prefabs/world_environment.tscn" id="6_fgxcq"]
+[ext_resource type="MeshLibrary" uid="uid://8cjh23xm2taa" path="res://prefabs/mesh_library.tres" id="7_7q2v4"]
+[ext_resource type="PackedScene" uid="uid://vfslyt4kcmtt" path="res://prefabs/props/death_plane.tscn" id="8_sguc0"]
+[ext_resource type="PackedScene" uid="uid://df73tjuqf6xcf" path="res://prefabs/props/barrier.tscn" id="9_o4krh"]
+
+[sub_resource type="Resource" id="Resource_u73xd"]
+script = ExtResource("1_utsup")
+level_name = "Gotta go fast"
+medal_times = Array[float]([40.0, 33.0, 28.0])
+level_path = ""
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5fmg0"]
+size = Vector3(2, 4, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ex22"]
+transparency = 4
+depth_draw_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 0.937255, 0, 0.494118)
+heightmap_scale = 0.0
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ltvxh"]
+size = Vector3(2, 1, 3)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y8d2a"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_rfqfa"]
+sky_material = SubResource("ProceduralSkyMaterial_y8d2a")
+
+[sub_resource type="Environment" id="Environment_cbird"]
+background_mode = 2
+sky = SubResource("Sky_rfqfa")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.92
+tonemap_mode = 3
+ssao_enabled = true
+ssao_radius = 2.79
+ssao_intensity = 2.21
+glow_enabled = true
+
+[node name="Level" type="Node3D"]
+metadata/level_info = SubResource("Resource_u73xd")
+
+[node name="LevelController" parent="." instance=ExtResource("2_e1uvh")]
+
+[node name="Goal" type="Area3D" parent="LevelController"]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -21.8179, 0.403878, -23.18)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("3_h3jjq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelController/Goal"]
+shape = SubResource("BoxShape3D_5fmg0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelController/Goal"]
+material_override = SubResource("StandardMaterial3D_6ex22")
+mesh = SubResource("BoxMesh_ltvxh")
+
+[node name="Camera3D" type="Camera3D" parent="LevelController"]
+transform = Transform3D(1, 0, 0, 0, 0.625869, 0.779928, 0, -0.779928, 0.625869, 2.62903, 5, -10.6332)
+current = true
+script = ExtResource("4_n51bj")
+target_offset = Vector3(0, 5, 3.7)
+
+[node name="Vehicle" parent="LevelController" instance=ExtResource("5_k41ix")]
+transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 22.4633, 0.270428, 25.0765)
+
+[node name="WorldEnvironment" parent="LevelController" instance=ExtResource("6_fgxcq")]
+environment = SubResource("Environment_cbird")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="LevelController"]
+transform = Transform3D(-0.932382, -0.215522, 0.290196, -0.0219785, 0.835129, 0.549615, -0.360805, 0.506073, -0.783396, 0, 5, 3.7)
+light_energy = 3.051
+shadow_enabled = true
+
+[node name="GridMap" type="GridMap" parent="LevelController"]
+mesh_library = ExtResource("7_7q2v4")
+cell_size = Vector3(2.5, 2.5, 2.5)
+data = {
+"cells": PackedInt32Array(-17, 65524, 655367, -17, 65525, 1441798, -17, 65526, 655367, -17, 65527, 1048581, -17, 65528, 655367, -17, 65529, 1048582, -17, 65530, 655367, -16, 65524, 655367, -16, 65525, 1441798, -16, 65526, 655367, -16, 65527, 1048581, -16, 65528, 655367, -16, 65529, 1048582, -16, 65530, 655367, -15, 65524, 655367, -15, 65525, 1441798, -15, 65526, 655367, -15, 65527, 1048581, -15, 65528, 655367, -15, 65529, 1048582, -15, 65530, 655367, -14, 65524, 655367, -14, 65525, 1441798, -14, 65526, 655367, -14, 65527, 1048581, -14, 65528, 655367, -14, 65529, 1048582, -14, 65530, 655367, -13, 65524, 655367, -13, 65525, 1441798, -13, 65526, 655367, -13, 65527, 1048581, -13, 65528, 655367, -13, 65529, 1048582, -13, 65530, 655367, -12, 65524, 655367, -12, 65525, 1441798, -12, 65526, 655367, -12, 65527, 1048581, -12, 65528, 655367, -12, 65529, 1048582, -12, 65530, 655367, -11, 65524, 655367, -11, 65525, 1441798, -11, 65526, 655367, -11, 65527, 1048581, -11, 65528, 655367, -11, 65529, 1048582, -11, 65530, 655367, -10, 65524, 655367, -10, 65525, 1441798, -10, 65526, 655367, -10, 65527, 1048581, -10, 65528, 655367, -10, 65529, 1048582, -10, 65530, 655367, -10, 65531, 655367, -10, 65532, 655367, -10, 65533, 1441793, -10, 65534, 655366, -10, 65535, 655366, -10, 0, 655366, -10, 1, 655366, -10, 2, 655366, -10, 3, 655366, -10, 4, 655366, -10, 5, 655366, -10, 6, 655366, -10, 7, 655366, -10, 8, 655366, -10, 9, 1441795, -10, 10, 1048583, -10, 11, 1048583, -9, 65524, 655367, -9, 65525, 1441798, -9, 65526, 655367, -9, 65527, 1048581, -9, 65528, 655367, -9, 65529, 1048582, -9, 65530, 655367, -9, 65531, 655367, -9, 65532, 655367, -9, 65533, 1048578, -9, 65534, 1048583, -9, 65535, 1048583, -9, 0, 655365, -9, 1, 5, -9, 2, 5, -9, 3, 5, -9, 4, 5, -9, 5, 5, -9, 6, 655365, -9, 7, 7, -9, 8, 655367, -9, 9, 1441794, -9, 10, 1048583, -9, 11, 1048583, -8, 65524, 655367, -8, 65525, 1441798, -8, 65526, 655367, -8, 65527, 1048581, -8, 65528, 655367, -8, 65529, 1048582, -8, 65530, 655367, -8, 65531, 655367, -8, 65532, 655367, -8, 65533, 1048579, -8, 65534, 1048583, -8, 65535, 1441797, -8, 0, 1048583, -8, 1, 6, -8, 2, 6, -8, 3, 6, -8, 4, 6, -8, 5, 6, -8, 6, 655367, -8, 7, 1048581, -8, 8, 655367, -8, 9, 1048577, -8, 10, 1441799, -8, 11, 1441799, -7, 65524, 655363, -7, 65525, 4, -7, 65526, 655367, -7, 65527, 1048581, -7, 65528, 655367, -7, 65529, 655364, -7, 65530, 1, -7, 65531, 655367, -7, 65532, 655363, -7, 65533, 4, -7, 65534, 7, -7, 65535, 1441797, -7, 0, 7, -7, 1, 655364, -7, 2, 1, -7, 3, 655367, -7, 4, 655363, -7, 5, 4, -7, 6, 655367, -7, 7, 1048581, -7, 8, 655367, -7, 9, 655364, -7, 10, 1, -7, 11, 655367, -6, 65524, 655360, -6, 65525, 4, -6, 65526, 1441799, -6, 65527, 1441797, -6, 65528, 1441799, -6, 65529, 655364, -6, 65530, 0, -6, 65531, 655367, -6, 65532, 655360, -6, 65533, 4, -6, 65534, 1441799, -6, 65535, 1441797, -6, 0, 1441799, -6, 1, 655364, -6, 2, 0, -6, 3, 655367, -6, 4, 655360, -6, 5, 4, -6, 6, 1441799, -6, 7, 1441797, -6, 8, 1441799, -6, 9, 655364, -6, 10, 0, -6, 11, 655367, -5, 65524, 655360, -5, 65525, 4, -5, 65526, 1441799, -5, 65527, 1441797, -5, 65528, 1441799, -5, 65529, 655364, -5, 65530, 0, -5, 65531, 655367, -5, 65532, 655360, -5, 65533, 4, -5, 65534, 1441799, -5, 65535, 1441797, -5, 0, 1441799, -5, 1, 655364, -5, 2, 0, -5, 3, 655367, -5, 4, 655360, -5, 5, 4, -5, 6, 1441799, -5, 7, 1441797, -5, 8, 1441799, -5, 9, 655364, -5, 10, 0, -5, 11, 655367, -4, 65524, 655360, -4, 65525, 4, -4, 65526, 1441799, -4, 65527, 1441797, -4, 65528, 1441799, -4, 65529, 655364, -4, 65530, 0, -4, 65531, 655367, -4, 65532, 655360, -4, 65533, 4, -4, 65534, 1441799, -4, 65535, 1441797, -4, 0, 1441799, -4, 1, 655364, -4, 2, 0, -4, 3, 655367, -4, 4, 655360, -4, 5, 4, -4, 6, 1441799, -4, 7, 1441797, -4, 8, 1441799, -4, 9, 655364, -4, 10, 0, -4, 11, 655367, -3, 65524, 655360, -3, 65525, 4, -3, 65526, 1441799, -3, 65527, 1441797, -3, 65528, 1441799, -3, 65529, 655364, -3, 65530, 0, -3, 65531, 655367, -3, 65532, 655360, -3, 65533, 4, -3, 65534, 1441799, -3, 65535, 1441797, -3, 0, 1441799, -3, 1, 655364, -3, 2, 0, -3, 3, 655367, -3, 4, 655360, -3, 5, 4, -3, 6, 1441799, -3, 7, 1441797, -3, 8, 1441799, -3, 9, 655364, -3, 10, 0, -3, 11, 655367, -2, 65524, 655360, -2, 65525, 4, -2, 65526, 1441799, -2, 65527, 1441797, -2, 65528, 1441799, -2, 65529, 655364, -2, 65530, 0, -2, 65531, 655367, -2, 65532, 655360, -2, 65533, 4, -2, 65534, 1441799, -2, 65535, 1441797, -2, 0, 1441799, -2, 1, 655364, -2, 2, 0, -2, 3, 655367, -2, 4, 655360, -2, 5, 4, -2, 6, 1441799, -2, 7, 1441797, -2, 8, 1441799, -2, 9, 655364, -2, 10, 0, -2, 11, 655367, -1, 65524, 655360, -1, 65525, 4, -1, 65526, 1441799, -1, 65527, 1441797, -1, 65528, 1441799, -1, 65529, 655364, -1, 65530, 0, -1, 65531, 655367, -1, 65532, 655360, -1, 65533, 4, -1, 65534, 1441799, -1, 65535, 1441797, -1, 0, 1441799, -1, 1, 655364, -1, 2, 0, -1, 3, 655367, -1, 4, 655360, -1, 5, 4, -1, 6, 1441799, -1, 7, 1441797, -1, 8, 1441799, -1, 9, 655364, -1, 10, 0, -1, 11, 655367, -65536, 65524, 655360, -65536, 65525, 4, -65536, 65526, 1441799, -65536, 65527, 1441797, -65536, 65528, 1441799, -65536, 65529, 655364, -65536, 65530, 0, -65536, 65531, 655367, -65536, 65532, 655360, -65536, 65533, 4, -65536, 65534, 1441799, -65536, 65535, 1441797, -65536, 0, 1441799, -65536, 1, 655364, -65536, 2, 0, -65536, 3, 655367, -65536, 4, 655360, -65536, 5, 4, -65536, 6, 1441799, -65536, 7, 1441797, -65536, 8, 1441799, -65536, 9, 655364, -65536, 10, 0, -65536, 11, 655367, -65535, 65524, 655360, -65535, 65525, 4, -65535, 65526, 1441799, -65535, 65527, 1441797, -65535, 65528, 1441799, -65535, 65529, 655364, -65535, 65530, 0, -65535, 65531, 655367, -65535, 65532, 655360, -65535, 65533, 4, -65535, 65534, 1441799, -65535, 65535, 1441797, -65535, 0, 1441799, -65535, 1, 655364, -65535, 2, 0, -65535, 3, 655367, -65535, 4, 655360, -65535, 5, 4, -65535, 6, 1441799, -65535, 7, 1441797, -65535, 8, 1441799, -65535, 9, 655364, -65535, 10, 0, -65535, 11, 655367, -65534, 65524, 655360, -65534, 65525, 4, -65534, 65526, 1441799, -65534, 65527, 1441797, -65534, 65528, 1441799, -65534, 65529, 655364, -65534, 65530, 0, -65534, 65531, 655367, -65534, 65532, 655360, -65534, 65533, 4, -65534, 65534, 1441799, -65534, 65535, 1441797, -65534, 0, 1441799, -65534, 1, 655364, -65534, 2, 0, -65534, 3, 655367, -65534, 4, 655360, -65534, 5, 4, -65534, 6, 1441799, -65534, 7, 1441797, -65534, 8, 1441799, -65534, 9, 655364, -65534, 10, 0, -65534, 11, 655367, -65533, 65524, 655360, -65533, 65525, 4, -65533, 65526, 1441799, -65533, 65527, 1441797, -65533, 65528, 1441799, -65533, 65529, 655364, -65533, 65530, 0, -65533, 65531, 655367, -65533, 65532, 655360, -65533, 65533, 4, -65533, 65534, 1441799, -65533, 65535, 1441797, -65533, 0, 1441799, -65533, 1, 655364, -65533, 2, 0, -65533, 3, 655367, -65533, 4, 655360, -65533, 5, 4, -65533, 6, 1441799, -65533, 7, 1441797, -65533, 8, 1441799, -65533, 9, 655364, -65533, 10, 0, -65533, 11, 655367, -65532, 65524, 655360, -65532, 65525, 4, -65532, 65526, 1441799, -65532, 65527, 1441797, -65532, 65528, 1441799, -65532, 65529, 655364, -65532, 65530, 0, -65532, 65531, 655367, -65532, 65532, 655360, -65532, 65533, 4, -65532, 65534, 1441799, -65532, 65535, 1441797, -65532, 0, 1441799, -65532, 1, 655364, -65532, 2, 0, -65532, 3, 655367, -65532, 4, 655360, -65532, 5, 4, -65532, 6, 1441799, -65532, 7, 1441797, -65532, 8, 1441799, -65532, 9, 655364, -65532, 10, 0, -65532, 11, 655367, -65531, 65524, 655360, -65531, 65525, 4, -65531, 65526, 1441799, -65531, 65527, 1441797, -65531, 65528, 1441799, -65531, 65529, 655364, -65531, 65530, 0, -65531, 65531, 655367, -65531, 65532, 655360, -65531, 65533, 4, -65531, 65534, 1441799, -65531, 65535, 1441797, -65531, 0, 1441799, -65531, 1, 655364, -65531, 2, 0, -65531, 3, 655367, -65531, 4, 655360, -65531, 5, 4, -65531, 6, 1441799, -65531, 7, 1441797, -65531, 8, 1441799, -65531, 9, 655364, -65531, 10, 0, -65531, 11, 655367, -65530, 65524, 655360, -65530, 65525, 4, -65530, 65526, 1441799, -65530, 65527, 1441797, -65530, 65528, 1441799, -65530, 65529, 655364, -65530, 65530, 0, -65530, 65531, 655367, -65530, 65532, 655360, -65530, 65533, 4, -65530, 65534, 1441799, -65530, 65535, 1441797, -65530, 0, 1441799, -65530, 1, 655364, -65530, 2, 0, -65530, 3, 655367, -65530, 4, 655360, -65530, 5, 4, -65530, 6, 1441799, -65530, 7, 1441797, -65530, 8, 1441799, -65530, 9, 655364, -65530, 10, 0, -65530, 11, 655367, -65529, 65524, 655360, -65529, 65525, 4, -65529, 65526, 1441799, -65529, 65527, 1441797, -65529, 65528, 1441799, -65529, 65529, 655364, -65529, 65530, 0, -65529, 65531, 655367, -65529, 65532, 655360, -65529, 65533, 4, -65529, 65534, 1441799, -65529, 65535, 1441797, -65529, 0, 1441799, -65529, 1, 655364, -65529, 2, 0, -65529, 3, 655367, -65529, 4, 655360, -65529, 5, 4, -65529, 6, 1441799, -65529, 7, 1441797, -65529, 8, 1441799, -65529, 9, 655364, -65529, 10, 0, -65529, 11, 655367, -65528, 65524, 655360, -65528, 65525, 4, -65528, 65526, 1441799, -65528, 65527, 1441797, -65528, 65528, 1441799, -65528, 65529, 655364, -65528, 65530, 0, -65528, 65531, 655367, -65528, 65532, 655360, -65528, 65533, 4, -65528, 65534, 1441799, -65528, 65535, 1441797, -65528, 0, 1441799, -65528, 1, 655364, -65528, 2, 0, -65528, 3, 655367, -65528, 4, 655360, -65528, 5, 4, -65528, 6, 1441799, -65528, 7, 1441797, -65528, 8, 1441799, -65528, 9, 655364, -65528, 10, 0, -65528, 11, 655367, -65527, 65524, 655361, -65527, 65525, 4, -65527, 65526, 1048583, -65527, 65527, 1048581, -65527, 65528, 1048583, -65527, 65529, 655364, -65527, 65530, 3, -65527, 65531, 1048583, -65527, 65532, 655361, -65527, 65533, 4, -65527, 65534, 1048583, -65527, 65535, 1441797, -65527, 0, 655367, -65527, 1, 655364, -65527, 2, 3, -65527, 3, 655367, -65527, 4, 655361, -65527, 5, 655362, -65527, 6, 655362, -65527, 7, 2, -65527, 8, 2, -65527, 9, 2, -65527, 10, 3, -65527, 11, 655367, -65526, 65525, 1441793, -65526, 65526, 1048583, -65526, 65527, 1048581, -65526, 65528, 1048583, -65526, 65529, 655366, -65526, 65530, 655366, -65526, 65531, 655366, -65526, 65532, 655366, -65526, 65533, 655366, -65526, 65534, 1048583, -65526, 65535, 1441797, -65526, 0, 655367, -65526, 1, 1441795, -65526, 2, 655367, -65526, 3, 655367, -65526, 4, 655367, -65526, 5, 655367, -65526, 6, 655367, -65526, 7, 655367, -65526, 8, 655367, -65526, 9, 655367, -65526, 10, 655367, -65526, 11, 655367, -65525, 65525, 1048578, -65525, 65526, 1048583, -65525, 65527, 1048583, -65525, 65528, 5, -65525, 65529, 5, -65525, 65530, 5, -65525, 65531, 5, -65525, 65532, 5, -65525, 65533, 655365, -65525, 65534, 655365, -65525, 65535, 655367, -65525, 0, 655367, -65525, 1, 1441794, -65525, 2, 655367, -65525, 3, 655367, -65525, 4, 655367, -65525, 5, 655367, -65525, 6, 655367, -65525, 7, 655367, -65525, 8, 655367, -65525, 9, 655367, -65525, 10, 655367, -65525, 11, 655367, -65524, 65525, 1048579, -65524, 65526, 6, -65524, 65527, 6, -65524, 65528, 6, -65524, 65529, 6, -65524, 65530, 6, -65524, 65531, 6, -65524, 65532, 6, -65524, 65533, 6, -65524, 65534, 6, -65524, 65535, 6, -65524, 0, 6, -65524, 1, 1048577, -65524, 2, 655367, -65524, 3, 655367, -65524, 4, 655367, -65524, 5, 655367, -65524, 6, 655367, -65524, 7, 655367, -65524, 8, 655367, -65524, 9, 655367, -65524, 10, 655367, -65524, 11, 655367, -11, 65531, 1048583, -11, 65532, 1048583, -11, 65533, 1048583, -11, 65534, 1048583, -11, 65535, 1048583, -11, 0, 1048583, -11, 1, 1048583, -11, 2, 1048583, -11, 3, 1048583, -11, 4, 1048583, -11, 5, 1048583, -11, 6, 1048583, -11, 7, 1048583, -11, 8, 1048583, -11, 9, 1048583, -11, 10, 1048583, -11, 11, 1048583, -65523, 65524, 1048583, -65523, 65525, 1048583, -65523, 65526, 1048583, -65523, 65527, 1048583, -65523, 65528, 1048583, -65523, 65529, 1048583, -65523, 65530, 1048583, -65523, 65531, 1048583, -65523, 65532, 1048583, -65523, 65533, 1048583, -65523, 65534, 1048583, -65523, 65535, 1048583, -65523, 0, 1048583, -65523, 2, 1048583, -65523, 1, 1048583, -65523, 3, 1048583, -65523, 4, 1048583, -65523, 5, 1048583, -65523, 6, 1048583, -65523, 7, 1048583, -65523, 8, 1048583, -65523, 9, 1048583, -65523, 10, 1048583, -65523, 11, 1048583, -65524, 65524, 1048583, -65525, 65524, 1048583, -65526, 65524, 1048583, -65523, 65523, 1048583, -65524, 65523, 1048583, -65525, 65523, 1048583, -65526, 65523, 1048583, -65527, 65523, 1048583, -65528, 65523, 1048583, -65529, 65523, 1048583, -65530, 65523, 1048583, -65531, 65523, 1048583, -65532, 65523, 1048583, -65533, 65523, 1048583, -65534, 65523, 1048583, -65535, 65523, 1048583, -65536, 65523, 1048583, -1, 65523, 1048583, -2, 65523, 1048583, -3, 65523, 1048583, -4, 65523, 1048583, -5, 65523, 1048583, -6, 65523, 1048583, -7, 65523, 1048583, -8, 65523, 1048583, -9, 65523, 1048583, -10, 65523, 1048583, -11, 65523, 1048583, -12, 65523, 1048583, -13, 65523, 1048583, -14, 65523, 1048583, -15, 65523, 1048583, -16, 65523, 1048583, -17, 65523, 1048583, -12, 65531, 1048583, -13, 65531, 1048583, -14, 65531, 1048583, -15, 65531, 1048583, -17, 65531, 1048583, -16, 65531, 1048583)
+}
+metadata/_editor_floor_ = Vector3(0, -1, 0)
+
+[node name="DeathPlane" parent="LevelController" instance=ExtResource("8_sguc0")]
+
+[node name="Barrier" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 22)
+
+[node name="Barrier2" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 19)
+
+[node name="Barrier3" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 16)
+
+[node name="Barrier4" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 13)
+
+[node name="Barrier5" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 10)
+
+[node name="Barrier6" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 7)
+
+[node name="Barrier7" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 4)
+
+[node name="Barrier8" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, 1)
+
+[node name="Barrier9" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -2)
+
+[node name="Barrier10" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -5)
+
+[node name="Barrier29" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -8)
+
+[node name="Barrier11" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, 1)
+
+[node name="Barrier91" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, 4)
+
+[node name="Barrier12" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -2)
+
+[node name="Barrier13" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -5)
+
+[node name="Barrier14" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -8)
+
+[node name="Barrier15" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -11)
+
+[node name="Barrier16" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -14)
+
+[node name="Barrier17" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -17)
+
+[node name="Barrier61" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 19)
+
+[node name="Barrier62" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 16)
+
+[node name="Barrier63" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 13)
+
+[node name="Barrier67" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 28)
+
+[node name="Barrier68" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 25)
+
+[node name="Barrier69" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 22)
+
+[node name="Barrier64" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 10)
+
+[node name="Barrier65" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 7)
+
+[node name="Barrier66" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, 4)
+
+[node name="Barrier38" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, -6.62059)
+
+[node name="Barrier39" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, -9.62059)
+
+[node name="Barrier40" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, -12.6206)
+
+[node name="Barrier41" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, 0, -15.6206)
+
+[node name="Barrier42" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.4, 0, 13.1794)
+
+[node name="Barrier43" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.4, 0, 10.1794)
+
+[node name="Barrier44" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.4, 0, 7.17941)
+
+[node name="Barrier45" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.4, 0, 4.17941)
+
+[node name="Barrier18" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -20)
+
+[node name="Barrier19" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -23)
+
+[node name="Barrier92" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -26)
+
+[node name="Barrier20" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0, -11.2)
+
+[node name="Barrier21" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2, 0, -11.2)
+
+[node name="Barrier22" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 0, -11.2)
+
+[node name="Barrier23" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 0, -11.2)
+
+[node name="Barrier24" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11, 0, -11.2)
+
+[node name="Barrier25" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 0, -11.2)
+
+[node name="Barrier26" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17, 0, -11.2)
+
+[node name="Barrier27" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 20, 0, -11.2)
+
+[node name="Barrier28" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37092e-08, 0.00998312, -0.99995, 4.36376e-10, 0.99995, 0.00998312, 1, 0, -4.37114e-08, 23, 0, -11.2)
+
+[node name="Barrier30" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -24.5786, 0, -10.4681)
+
+[node name="Barrier31" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -22, 0, -11.2)
+
+[node name="Barrier32" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -19, 0, -11.2)
+
+[node name="Barrier33" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -16, 0, -11.2)
+
+[node name="Barrier34" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -13, 0, -11.2)
+
+[node name="Barrier35" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10, 0, -11.2)
+
+[node name="Barrier36" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7, 0, -11.2)
+
+[node name="Barrier37" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, -11.2)
+
+[node name="Barrier60" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0, -31.6)
+
+[node name="Barrier70" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2, 0, -31.6)
+
+[node name="Barrier71" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 0, -31.6)
+
+[node name="Barrier72" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 0, -31.6)
+
+[node name="Barrier73" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11, 0, -31.6)
+
+[node name="Barrier74" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 0, -31.6)
+
+[node name="Barrier75" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17, 0, -31.6)
+
+[node name="Barrier76" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 20, 0, -31.6)
+
+[node name="Barrier77" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37092e-08, 0.00998312, -0.99995, 4.36376e-10, 0.99995, 0.00998312, 1, 0, -4.37114e-08, 23, 0, -31.6)
+
+[node name="Barrier85" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 25.8834, 0, -28)
+
+[node name="Barrier86" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.8834, 0, -28)
+
+[node name="Barrier87" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37092e-08, 0.00998312, -0.99995, 4.36376e-10, 0.99995, 0.00998312, 1, 0, -4.37114e-08, 31.8834, 0, -28)
+
+[node name="Barrier88" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 25.8834, 0, 5)
+
+[node name="Barrier89" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.8834, 0, 5)
+
+[node name="Barrier90" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37092e-08, 0.00998312, -0.99995, 4.36376e-10, 0.99995, 0.00998312, 1, 0, -4.37114e-08, 31.8834, 0, 5)
+
+[node name="Barrier78" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -22, 0, -31.6)
+
+[node name="Barrier79" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -19, 0, -31.6)
+
+[node name="Barrier80" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -16, 0, -31.6)
+
+[node name="Barrier81" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -13, 0, -31.6)
+
+[node name="Barrier82" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10, 0, -31.6)
+
+[node name="Barrier83" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7, 0, -31.6)
+
+[node name="Barrier84" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, -31.6)
+
+[node name="Barrier93" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0, 28.4)
+
+[node name="Barrier94" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2, 0, 28.4)
+
+[node name="Barrier95" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 0, 28.4)
+
+[node name="Barrier96" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 0, 28.4)
+
+[node name="Barrier97" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11, 0, 28.4)
+
+[node name="Barrier98" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 0, 28.4)
+
+[node name="Barrier99" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17, 0, 28.4)
+
+[node name="Barrier100" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 20, 0, 28.4)
+
+[node name="Barrier101" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37092e-08, 0.00998312, -0.99995, 4.36376e-10, 0.99995, 0.00998312, 1, 0, -4.37114e-08, 23, 0, 28.4)
+
+[node name="Barrier103" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -17.4737, 0, 26.8128)
+
+[node name="Barrier104" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -16, 0, 28.4)
+
+[node name="Barrier109" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4, 0, 24.8)
+
+[node name="Barrier110" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -21.4, 0, 24.8)
+
+[node name="Barrier111" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -18.4, 0, 24.8)
+
+[node name="Barrier105" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -13, 0, 28.4)
+
+[node name="Barrier106" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10, 0, 28.4)
+
+[node name="Barrier107" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7, 0, 28.4)
+
+[node name="Barrier108" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 28.4)
+
+[node name="Barrier46" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1, 0, 8.6)
+
+[node name="Barrier47" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2, 0, 8.6)
+
+[node name="Barrier48" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 0, 8.6)
+
+[node name="Barrier49" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 0, 8.6)
+
+[node name="Barrier50" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11, 0, 8.6)
+
+[node name="Barrier51" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14, 0, 8.6)
+
+[node name="Barrier52" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17, 0, 8.6)
+
+[node name="Barrier53" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 20, 0, 8.6)
+
+[node name="Barrier54" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37092e-08, 0.00998312, -0.99995, 4.36376e-10, 0.99995, 0.00998312, 1, 0, -4.37114e-08, 23, 0, 8.6)
+
+[node name="Barrier55" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -16, 0, 8.6)
+
+[node name="Barrier56" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -13, 0, 8.6)
+
+[node name="Barrier57" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10, 0, 8.6)
+
+[node name="Barrier58" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7, 0, 8.6)
+
+[node name="Barrier59" parent="LevelController" instance=ExtResource("9_o4krh")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 8.6)

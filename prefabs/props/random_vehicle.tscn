@@ -1,0 +1,108 @@
+[gd_scene load_steps=18 format=3 uid="uid://dvks3301yvlb"]
+
+[ext_resource type="Script" path="res://scripts/Collateral.gd" id="1_dpccb"]
+[ext_resource type="Script" path="res://scripts/VehicleRandomizer.gd" id="1_t7hwo"]
+[ext_resource type="PackedScene" uid="uid://vsq025ltyn8b" path="res://prefabs/vehicle_parts/body_estate.tscn" id="2_tt41x"]
+[ext_resource type="PackedScene" uid="uid://dj6paq2h006m2" path="res://prefabs/vehicle_parts/body_pickup.tscn" id="3_e4t6j"]
+[ext_resource type="Material" uid="uid://bx83eb58w6g5x" path="res://materials/prop_material.tres" id="3_mjdj2"]
+[ext_resource type="PackedScene" uid="uid://crrsdix14pjuw" path="res://prefabs/vehicle_parts/body_sedan.tscn" id="4_0rofg"]
+[ext_resource type="PackedScene" uid="uid://brpwc4klkib3m" path="res://prefabs/vehicle_parts/body_van.tscn" id="5_8yxi8"]
+[ext_resource type="PackedScene" uid="uid://dtvvtl06cbmpa" path="res://prefabs/vehicle_parts/front_bumper.tscn" id="6_lpiln"]
+[ext_resource type="PackedScene" uid="uid://blbck7du68h7a" path="res://prefabs/vehicle_parts/headlights.tscn" id="7_2d8e6"]
+[ext_resource type="PackedScene" uid="uid://bqxf73u2t4y8o" path="res://prefabs/vehicle_parts/mirrors.tscn" id="8_kwjbk"]
+[ext_resource type="PackedScene" uid="uid://4e7hnye4joa8" path="res://prefabs/vehicle_parts/rear_bumper.tscn" id="9_exmjp"]
+[ext_resource type="PackedScene" uid="uid://bv0oeo4el2xuv" path="res://prefabs/vehicle_parts/tail_lights.tscn" id="10_1tv1q"]
+[ext_resource type="PackedScene" uid="uid://c8k2algan7w6k" path="res://prefabs/vehicle_parts/wheel.tscn" id="11_4vywy"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d3b0d"]
+points = PackedVector3Array(-1.46959, -0.229974, -0.682347, -1.46959, -0.229974, 0.682332, -1.46959, 0.230717, -0.682347, 1.66156, -0.229974, -0.682347, -1.46959, 0.230717, 0.682332, 1.66156, -0.229974, 0.682332, -0.207445, 1.00583, -0.682347, 1.66156, 0.408437, -0.682347, -0.207445, 1.00583, 0.682332, 1.66156, 0.408437, 0.682332, 1.48502, 1.00583, -0.682347, 1.4936, 0.977163, -0.652425, 1.48502, 1.00583, 0.682332, 1.4936, 0.977163, 0.652276)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xik31"]
+points = PackedVector3Array(-1.46959, -0.229974, -0.682347, -1.46959, -0.229974, 0.682332, -1.46959, 0.230717, -0.682347, 1.66156, -0.229974, -0.682347, -1.46959, 0.230717, 0.682332, 1.66156, -0.229974, 0.682332, -0.207445, 1.00583, -0.682347, 1.66156, 0.408437, -0.682347, -0.207445, 1.00583, 0.682332, 1.66156, 0.408437, 0.682332, 0.245554, 1.00583, -0.682347, 0.245554, 1.00583, 0.682332)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_k72yv"]
+points = PackedVector3Array(-1.46959, -0.229974, -0.682347, -1.46959, -0.229974, 0.682332, -1.46959, 0.230717, -0.682347, 1.66156, -0.229974, -0.682347, -1.46959, 0.230717, 0.682332, 1.66156, -0.229974, 0.682332, -0.207445, 1.00583, -0.682347, 1.66156, 0.254913, -0.682347, -0.207445, 1.00583, 0.682332, 1.66156, 0.254913, 0.682332, 0.698247, 1.00583, -0.682347, 0.698247, 1.00583, 0.682332)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3nefs"]
+height = 0.125
+radius = 0.275
+
+[node name="PropVehicle" type="RigidBody3D"]
+mass = 80.0
+script = ExtResource("1_dpccb")
+penalty_time = 10.0
+penalty_reason = "Dented car"
+
+[node name="BodyEstate" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("ConvexPolygonShape3D_d3b0d")
+
+[node name="BodyEstate" parent="BodyEstate" instance=ExtResource("2_tt41x")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="BodyPickup" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("ConvexPolygonShape3D_xik31")
+
+[node name="BodyPickup" parent="BodyPickup" instance=ExtResource("3_e4t6j")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="BodySedan" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_k72yv")
+
+[node name="BodySedan" parent="BodySedan" instance=ExtResource("4_0rofg")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="FrontBumper" parent="." instance=ExtResource("6_lpiln")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="Headlights" parent="." instance=ExtResource("7_2d8e6")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="Mirrors" parent="." instance=ExtResource("8_kwjbk")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="RearBumper" parent="." instance=ExtResource("9_exmjp")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="TailLights" parent="." instance=ExtResource("10_1tv1q")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="Wheel" parent="." instance=ExtResource("11_4vywy")]
+material_override = ExtResource("3_mjdj2")
+
+[node name="Wheel2" parent="." instance=ExtResource("11_4vywy")]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 1.10167, -0.169086, 0.641545)
+material_override = ExtResource("3_mjdj2")
+
+[node name="Wheel3" parent="." instance=ExtResource("11_4vywy")]
+transform = Transform3D(-1, 8.74228e-08, 0, 0, 0, -1, -8.74228e-08, -1, 0, 1.10167, -0.169086, -0.642)
+material_override = ExtResource("3_mjdj2")
+
+[node name="Wheel4" parent="." instance=ExtResource("11_4vywy")]
+transform = Transform3D(-1, 8.74228e-08, 0, 0, 0, -1, -8.74228e-08, -1, 0, -0.942112, -0.169086, -0.642)
+material_override = ExtResource("3_mjdj2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.942112, -0.169086, 0.641545)
+shape = SubResource("CylinderShape3D_3nefs")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 1.10167, -0.169086, 0.641545)
+shape = SubResource("CylinderShape3D_3nefs")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 1.10167, -0.169086, -0.642)
+shape = SubResource("CylinderShape3D_3nefs")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.942112, -0.169086, -0.642)
+shape = SubResource("CylinderShape3D_3nefs")
+
+[node name="BodyRandomizer" type="Node" parent="." node_paths=PackedStringArray("bodies")]
+script = ExtResource("1_t7hwo")
+bodies = [NodePath("../BodyEstate"), NodePath("../BodyPickup"), NodePath("../BodySedan"), NodePath("../BodyVan")]
+
+[node name="BodyVan" parent="." instance=ExtResource("5_8yxi8")]
+visible = false
+material_override = ExtResource("3_mjdj2")

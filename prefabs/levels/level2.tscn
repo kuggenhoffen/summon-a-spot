@@ -1,0 +1,148 @@
+[gd_scene load_steps=19 format=3 uid="uid://qd6n6npjqct5"]
+
+[ext_resource type="Script" path="res://scripts/Goal.gd" id="1_411yb"]
+[ext_resource type="Script" path="res://scripts/LevelInfo.gd" id="1_d1ml5"]
+[ext_resource type="Script" path="res://scripts/CameraFollow.gd" id="2_7a2yr"]
+[ext_resource type="PackedScene" uid="uid://b41b30lrlc88h" path="res://prefabs/vehicle.tscn" id="3_2xwq2"]
+[ext_resource type="PackedScene" uid="uid://bjhp0xarpd1sm" path="res://prefabs/level_controller.tscn" id="4_j7sfb"]
+[ext_resource type="MeshLibrary" uid="uid://8cjh23xm2taa" path="res://prefabs/mesh_library.tres" id="5_tyy3l"]
+[ext_resource type="PackedScene" uid="uid://k5emosfsos2t" path="res://prefabs/world_environment.tscn" id="6_6htlw"]
+[ext_resource type="PackedScene" uid="uid://dvks3301yvlb" path="res://prefabs/props/random_vehicle.tscn" id="6_idowc"]
+[ext_resource type="PackedScene" uid="uid://60oriymnqdnt" path="res://prefabs/props/fence.tscn" id="7_hhnoh"]
+[ext_resource type="PackedScene" uid="uid://byl1aft2hv7np" path="res://prefabs/props/cone.tscn" id="8_7vrrh"]
+[ext_resource type="PackedScene" uid="uid://vfslyt4kcmtt" path="res://prefabs/props/death_plane.tscn" id="9_nf0fj"]
+
+[sub_resource type="Resource" id="Resource_u73xd"]
+script = ExtResource("1_d1ml5")
+level_name = "Back it up"
+medal_times = Array[float]([15.5, 12.0, 9.55])
+level_path = ""
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5fmg0"]
+size = Vector3(2, 4, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ex22"]
+transparency = 4
+depth_draw_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 0.937255, 0, 0.494118)
+heightmap_scale = 0.0
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ltvxh"]
+size = Vector3(2, 1, 3)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y8d2a"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_rfqfa"]
+sky_material = SubResource("ProceduralSkyMaterial_y8d2a")
+
+[sub_resource type="Environment" id="Environment_cbird"]
+background_mode = 2
+sky = SubResource("Sky_rfqfa")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.92
+tonemap_mode = 3
+ssao_enabled = true
+ssao_radius = 2.79
+ssao_intensity = 2.21
+glow_enabled = true
+
+[node name="Level" type="Node3D"]
+metadata/level_info = SubResource("Resource_u73xd")
+
+[node name="LevelController" parent="." instance=ExtResource("4_j7sfb")]
+
+[node name="Goal" type="Area3D" parent="LevelController"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.57158, 0.403878, 2.77637)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_411yb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelController/Goal"]
+shape = SubResource("BoxShape3D_5fmg0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelController/Goal"]
+material_override = SubResource("StandardMaterial3D_6ex22")
+mesh = SubResource("BoxMesh_ltvxh")
+
+[node name="Camera3D" type="Camera3D" parent="LevelController"]
+transform = Transform3D(1, 0, 0, 0, 0.625869, 0.779928, 0, -0.779928, 0.625869, 0, 5, 3.7)
+current = true
+script = ExtResource("2_7a2yr")
+target_offset = Vector3(0, 5, 3.7)
+
+[node name="Vehicle" parent="LevelController" instance=ExtResource("3_2xwq2")]
+transform = Transform3D(1, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 1, 0.00580645, 0.270428, 7.49638)
+
+[node name="WorldEnvironment" parent="LevelController" instance=ExtResource("6_6htlw")]
+environment = SubResource("Environment_cbird")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="LevelController"]
+transform = Transform3D(-0.932382, -0.215522, 0.290196, -0.0219785, 0.835129, 0.549615, -0.360805, 0.506073, -0.783396, 0, 5, 3.7)
+light_energy = 3.051
+shadow_enabled = true
+
+[node name="GridMap" type="GridMap" parent="LevelController"]
+mesh_library = ExtResource("5_tyy3l")
+cell_size = Vector3(2.5, 2.5, 2.5)
+data = {
+"cells": PackedInt32Array(-2, 3, 0, -1, 3, 0, -3, 3, 1, -65536, 3, 3, -3, 2, 2, -2, 2, 655364, -1, 2, 655364, -65536, 2, 655363, -65535, 2, 1048582, -65534, 2, 1048582, -65533, 2, 1048582, -65532, 2, 1048582, -65531, 2, 1048582, -65530, 2, 1048582, -65529, 2, 1048582, -65529, 3, 1441799, -65528, 3, 1441799, -65527, 3, 1441799, -65526, 3, 1441799, -65526, 2, 1048582, -65525, 2, 1048582, -65527, 2, 1048582, -65528, 2, 1048582, -65532, 3, 1441799, -65533, 3, 1441799, -65534, 3, 1441799, -65535, 3, 1441799, -65531, 3, 1441799, -65530, 3, 1441799, -1, 1, 7, -2, 1, 7, -3, 1, 2, -3, 0, 655363, -2, 0, 1048582, -1, 0, 1048582, -65536, 0, 1048582, -65525, 0, 1048582, -65526, 0, 1048582, -65527, 0, 1048582, -65528, 0, 1048582, -65525, 3, 1048583, -65525, 65535, 1048583, -65526, 65535, 1048583, -65527, 65535, 1048583, -65528, 65535, 1048583, -65529, 65535, 1048583, -65530, 65535, 1048583, -65531, 65535, 1048583, -65532, 65535, 1048583, -65533, 65535, 1048583, -65534, 65535, 1048583, -65535, 65535, 1048583, -65536, 65535, 1048583, -1, 65535, 1048583, -2, 65535, 1048583, -3, 65535, 655367, -65525, 4, 655367, -65526, 4, 655367, -65527, 4, 655367, -65528, 4, 655367, -65529, 4, 655367, -65530, 4, 655367, -65531, 4, 655367, -65532, 4, 655367, -65533, 4, 655367, -65534, 4, 655367, -65535, 4, 655367, -65536, 4, 655367, -1, 4, 655367, -2, 4, 655367, -3, 4, 655367, -4, 4, 655367, -4, 3, 655367, -4, 2, 655367, -4, 1, 655367, -4, 65535, 655367, -4, 0, 655367, -4, 65534, 655367, -3, 65534, 655367, -2, 65534, 655367, -1, 65534, 655367, -65536, 65534, 655367, -65535, 65534, 655367, -65534, 65534, 655367, -65533, 65534, 655367, -65532, 65534, 655367, -65531, 65534, 655367, -65530, 65534, 655367, -65529, 65534, 655367, -65528, 65534, 655367, -65527, 65534, 655367, -65526, 65534, 655367, -65525, 65534, 655367, -65529, 0, 1048582, -65530, 0, 1048582, -65531, 0, 1048582, -65532, 0, 1048582, -65533, 0, 1048582, -65534, 0, 1048582, -65535, 0, 1048582, -65536, 1, 7, -65535, 1, 7, -65534, 1, 7, -65533, 1, 7, -65532, 1, 1048583, -65531, 1, 1048583, -65530, 1, 1048583, -65529, 1, 1048583, -65528, 1, 1048583, -65525, 1, 1048583, -65526, 1, 1048583, -65527, 1, 1048583, -65540, 4, 8, -65539, 4, 8, -65538, 4, 8, -65537, 4, 8, -131072, 4, 8, -131071, 4, 8, -131070, 4, 8, -131069, 4, 8, -131068, 4, 8, -131067, 4, 8, -131066, 4, 8, -131065, 4, 8, -131064, 4, 8, -131063, 4, 8, -131062, 4, 8, -131061, 4, 8, -65540, 3, 8, -65540, 2, 8, -65540, 1, 8, -65540, 0, 8, -65540, 65535, 8, -65540, 65534, 8, -65539, 65534, 8, -65538, 65534, 8, -65537, 65534, 8, -131072, 65534, 8, -131071, 65534, 8, -131070, 65534, 8, -131069, 65534, 8, -131068, 65534, 8, -131067, 65534, 8, -131066, 65534, 8, -131065, 65534, 8, -131064, 65534, 8, -131063, 65534, 8, -131062, 65534, 8, -131061, 65534, 8, -131061, 65535, 8, -131061, 0, 8, -131061, 1, 8, -131061, 2, 8, -131061, 3, 8, -131076, 4, 8, -131075, 4, 8, -131074, 4, 8, -131073, 4, 8, -196608, 4, 8, -196607, 4, 8, -196606, 4, 8, -196605, 4, 8, -196604, 4, 8, -196603, 4, 8, -196602, 4, 8, -196601, 4, 8, -196600, 4, 8, -196599, 4, 8, -196598, 4, 8, -196597, 4, 8, -196597, 3, 8, -196597, 2, 8, -196597, 1, 8, -196597, 0, 8, -196597, 65535, 8, -196597, 65534, 8, -196598, 65534, 8, -196599, 65534, 8, -196600, 65535, 8, -196601, 65535, 8, -196602, 65535, 8, -196603, 65535, 8, -196604, 65535, 8, -196600, 65534, 8, -196601, 65534, 8, -196602, 65534, 8, -196603, 65534, 8, -196604, 65534, 8, -196605, 65535, 8, -196605, 65534, 8, -196606, 65534, 8, -196607, 65534, 8, -196608, 65534, 8, -131073, 65534, 8, -131074, 65534, 8, -131076, 65534, 8, -131075, 65534, 8, -131076, 65535, 8, -131076, 0, 8, -131076, 1, 8, -131076, 2, 8, -131076, 3, 8)
+}
+metadata/_editor_floor_ = Vector3(0, -3, 0)
+
+[node name="PropVehicle" parent="LevelController" instance=ExtResource("6_idowc")]
+transform = Transform3D(-0.051848, 0, 0.998655, 0, 1, 0, -0.998655, 0, -0.051848, -2.48734, 0.444096, 7.7198)
+
+[node name="PropVehicle2" parent="LevelController" instance=ExtResource("6_idowc")]
+transform = Transform3D(0.700561, 0, 0.713593, 0, 1, 0, -0.713593, 0, 0.700561, -3.43932, 0.444096, 3.27906)
+
+[node name="fence" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(0.998052, 0, -0.0623899, 0, 1, 0, 0.0623899, 0, 0.998052, 1.62463, 0, 6.49995)
+
+[node name="fence2" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(0.999918, 0, 0.0127929, 0, 1, 0, -0.0127929, 0, 0.999918, 1.5781, 0, 8.54366)
+
+[node name="fence3" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(0.35305, 0, -0.935604, 0, 1, 0, 0.935604, 0, 0.35305, 0.939084, 0, 10.0407)
+
+[node name="fence4" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(-0.0683809, 0, -0.997659, 0, 1, 0, 0.997659, 0, -0.0683809, -1.04873, 4.76837e-07, 10.1129)
+
+[node name="Node3D" parent="LevelController" instance=ExtResource("8_7vrrh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.52629, -4.76837e-07, 5.45932)
+
+[node name="Node3D2" parent="LevelController" instance=ExtResource("8_7vrrh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.003, -4.76837e-07, 4.95649)
+
+[node name="Node3D3" parent="LevelController" instance=ExtResource("8_7vrrh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.54213, -4.76837e-07, 5.21863)
+
+[node name="Node3D4" parent="LevelController" instance=ExtResource("8_7vrrh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.65374, -4.76837e-07, 4.65182)
+
+[node name="fence5" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(0.00390953, 0, -0.999992, 0, 1, 0, 0.999992, 0, 0.00390953, -0.0315127, -4.76837e-07, -0.380198)
+
+[node name="fence6" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(0.00390953, 0, -0.999992, 0, 1, 0, 0.999992, 0, 0.00390953, -2.03151, -4.76837e-07, -0.380198)
+
+[node name="fence7" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(0.00390953, 0, -0.999992, 0, 1, 0, 0.999992, 0, 0.00390953, -4.03151, -4.76837e-07, -0.380198)
+
+[node name="fence8" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(0.00390953, 0, -0.999992, 0, 1, 0, 0.999992, 0, 0.00390953, -6.03151, -4.76837e-07, -0.380198)
+
+[node name="fence9" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(-0.999992, 0, -0.00390949, 0, 1, 0, 0.00390949, 0, -0.999992, -6.95496, -4.76837e-07, 1.09502)
+
+[node name="fence10" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(-0.999992, 0, -0.00390949, 0, 1, 0, 0.00390949, 0, -0.999992, -6.95496, -4.76837e-07, 3.09502)
+
+[node name="fence11" parent="LevelController" instance=ExtResource("7_hhnoh")]
+transform = Transform3D(-0.999992, 0, -0.00390949, 0, 1, 0, 0.00390949, 0, -0.999992, -6.95496, -4.76837e-07, 5.09502)
+
+[node name="DeathPlane" parent="LevelController" instance=ExtResource("9_nf0fj")]

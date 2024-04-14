@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://fy5fqndx63mj"]
+
+[ext_resource type="Texture2D" uid="uid://nc7i8ivlosit" path="res://textures/vehicle_palette.png" id="1_xukn8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ggs4"]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = ExtResource("1_xukn8")
+roughness = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_f8x2p"]
+_surfaces = [{
+"aabb": AABB(-1.2, -1.21592e-08, -0.600108, 1.2, 1.00122e-05, 1.20022),
+"format": 34896613377,
+"index_count": 24,
+"index_data": PackedByteArray(1, 0, 2, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0, 4, 0, 5, 0, 3, 0, 2, 0, 4, 0, 1, 0, 7, 0, 6, 0, 1, 0, 3, 0, 7, 0, 3, 0, 8, 0, 7, 0, 3, 0, 5, 0, 8, 0),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 9,
+"vertex_data": PackedByteArray(0, 0, 79, 0, 11, 0, 0, 0, 0, 0, 79, 0, 255, 127, 0, 0, 204, 12, 79, 0, 11, 0, 0, 0, 204, 12, 79, 0, 255, 127, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 255, 127, 0, 0, 0, 0, 79, 0, 243, 255, 0, 0, 204, 12, 79, 0, 243, 255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_mwy8m"]
+resource_name = "objects_Plane_028"
+_surfaces = [{
+"aabb": AABB(-1.2, -1.21592e-08, -0.600108, 1.2, 1.00122e-05, 1.20022),
+"attribute_data": PackedByteArray(255, 169, 127, 9, 255, 169, 127, 9, 255, 169, 127, 9, 255, 23, 86, 10, 255, 169, 127, 9, 255, 23, 86, 10, 255, 23, 86, 10, 255, 23, 86, 10, 255, 169, 127, 9, 255, 169, 127, 9, 255, 23, 86, 10, 255, 23, 86, 10),
+"format": 34896613399,
+"index_count": 24,
+"index_data": PackedByteArray(1, 0, 2, 0, 4, 0, 1, 0, 0, 0, 2, 0, 5, 0, 6, 0, 7, 0, 5, 0, 3, 0, 6, 0, 1, 0, 9, 0, 8, 0, 1, 0, 4, 0, 9, 0, 5, 0, 11, 0, 10, 0, 5, 0, 7, 0, 11, 0),
+"material": SubResource("StandardMaterial3D_3ggs4"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray(0, 0, 79, 0, 11, 0, 255, 191, 0, 0, 79, 0, 255, 127, 255, 191, 204, 12, 79, 0, 11, 0, 255, 191, 204, 12, 79, 0, 11, 0, 255, 191, 204, 12, 79, 0, 255, 127, 255, 191, 204, 12, 79, 0, 255, 127, 255, 191, 255, 255, 0, 0, 0, 0, 255, 191, 255, 255, 0, 0, 255, 127, 255, 191, 0, 0, 79, 0, 243, 255, 255, 191, 204, 12, 79, 0, 243, 255, 255, 191, 204, 12, 79, 0, 243, 255, 255, 191, 255, 255, 0, 0, 255, 255, 255, 191, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_f8x2p")
+
+[node name="LaneEdge" type="MeshInstance3D"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.2, 0, 0)
+mesh = SubResource("ArrayMesh_mwy8m")
+skeleton = NodePath("")

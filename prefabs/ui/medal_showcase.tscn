@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://kwekv4ndcl60"]
+
+[ext_resource type="Script" path="res://scripts/MedalShowcaseUI.gd" id="1_stleo"]
+[ext_resource type="SystemFont" uid="uid://7da4r7pmsgxw" path="res://fonts/button_font.tres" id="2_wndhl"]
+[ext_resource type="Texture2D" uid="uid://be2e2wkdcktfc" path="res://textures/medal_bronze.png" id="3_gtwj4"]
+[ext_resource type="Texture2D" uid="uid://c53mc2f0762iv" path="res://textures/medal_silver.png" id="4_syxe0"]
+[ext_resource type="Texture2D" uid="uid://dofls4mtev64c" path="res://textures/medal_gold.png" id="5_h23ic"]
+
+[node name="MedalShowcase" type="HBoxContainer"]
+size_flags_horizontal = 4
+script = ExtResource("1_stleo")
+
+[node name="BronzeTime" type="Label" parent="."]
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_wndhl")
+theme_override_font_sizes/font_size = 60
+text = "1:20"
+
+[node name="BronzeMedal" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("3_gtwj4")
+stretch_mode = 3
+
+[node name="VSeparator2" type="VSeparator" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="SilverTime" type="Label" parent="."]
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_wndhl")
+theme_override_font_sizes/font_size = 60
+text = "1:00"
+
+[node name="SilverMedal" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("4_syxe0")
+stretch_mode = 3
+
+[node name="VSeparator3" type="VSeparator" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="GoldTime" type="Label" parent="."]
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.921569, 0.921569, 0.921569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("2_wndhl")
+theme_override_font_sizes/font_size = 60
+text = "0:55"
+
+[node name="GoldMedal" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("5_h23ic")
+stretch_mode = 3

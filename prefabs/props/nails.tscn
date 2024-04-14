@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bq37mtd8wd0sx"]
+
+[ext_resource type="Script" path="res://scripts/Nails.gd" id="1_13tvu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4ail5"]
+size = Vector3(2, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mrqa1"]
+size = Vector3(1.8717, 1, 0.865967)
+
+[node name="nails" type="Area3D"]
+transform = Transform3D(0.0160215, 0, -0.999872, 0, 1, 0, 0.999872, 0, 0.0160215, -1.55535, -4.76837e-07, 6.42747)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_13tvu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_4ail5")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00734329, -0.0273962, 0.0098877)
+shape = SubResource("BoxShape3D_mrqa1")

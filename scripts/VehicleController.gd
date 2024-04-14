@@ -1,9 +1,13 @@
 extends VehicleBody3D
 class_name VehicleController
 
-const ACCEL_FORCE_FORWARD: float = 50
+signal tire_popped()
+signal collateral_damage(penalty: Penalty)
+signal fell_off()
+
+const ACCEL_FORCE_FORWARD: float = 65
 const ACCEL_FORCE_BACKWARD: float = 25
-const BRAKE_FORCE: float = 1
+const BRAKE_FORCE: float = 2.5
 const STEER_SPEED: float = 1.5
 const CENTERING_SPEED: float = 1.5
 const ENGINE_SPEED: float = 2
@@ -21,16 +25,20 @@ var reverse: bool = false
 var reverse_timer: float = 0.0
 
 var wheels: Array = []
+var last_linear_velocity: Vector3 = Vector3.ZERO
+
+@onready var engine_audio: AudioStreamPlayer3D = $EngineAudioPlayer
+@onready var crash_audio: AudioStreamPlayer3D = $CrashAudioPlayer
+@onready var pop_audio: AudioStreamPlayer3D = $PopAudioPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    pass # Replace with function body.
-    freeze = false
     for child in get_children():
         if child is Wheel:
             wheels.append(child)
-            child.on_popped.connect(on_wheel_popped.bind(child))
+            child.popped.connect(on_tire_popped.bind(child))
             child.max_steering_angle = MAX_STEERING_ANGLE
+    engine_audio.playing = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,11 +46,20 @@ func _process(delta):
     forward_input = Input.get_action_strength("forward")
     steer_input = Input.get_action_strength("left") - Input.get_action_strength("right")
     backward_input = Input.get_action_strength("backward")
-    if Input.is_action_just_pressed("escape"):
-        get_tree().quit()
 
 
 func _physics_process(delta):
+    update_audio()
+    var linear_velocity_change: Vector3 = get_linear_velocity() - last_linear_velocity
+    #print("Last linear velocity: ", last_linear_velocity.length())
+    if linear_velocity_change.length() > 0.3:
+        print("Linear velocity change: ", linear_velocity_change.length())
+        print("Collision count: ", get_colliding_bodies().size())
+        for b in get_colliding_bodies():
+            if b is Collateral:
+                collateral_damage.emit(b.apply_penalty())
+            crash_audio.play()
+    last_linear_velocity = get_linear_velocity()
     var brake_amount: float = 0.0
     var engine_force_amount = 0.0
     if steer_input != 0.0:
@@ -101,6 +118,26 @@ func _physics_process(delta):
     set_engine_force(engine_force_amount)
     set_brake(brake_amount * BRAKE_FORCE)
 
-func on_wheel_popped(wheel: Wheel):
+func on_tire_popped(wheel: Wheel):
     print("Wheel popped: ", wheel.position)
     apply_impulse(Vector3.UP * 20.0, wheel.global_position - global_position)
+    tire_popped.emit()
+    pop_audio.play()
+
+func death_plane_hit():
+    fell_off.emit()
+
+func update_audio():
+    var wheel_speed: float = 0.0
+    var count: int = 0
+    var slipping: float = 0
+    for wheel in wheels:
+        if wheel.use_as_traction:
+            wheel_speed += wheel.get_rpm()
+            count += 1
+        slipping += wheel.get_skidinfo()
+    if count > 0:
+        wheel_speed /= count
+    slipping /= float(wheels.size())
+    print("Slipping: ", slipping)
+    engine_audio.set_pitch_scale(lerp(0.4, 1.5, abs(wheel_speed) / 300.0))

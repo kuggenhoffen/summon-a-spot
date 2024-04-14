@@ -1,12 +1,20 @@
-[gd_scene load_steps=23 format=3 uid="uid://c2p3hpxnytcvs"]
+[gd_scene load_steps=14 format=3 uid="uid://c2p3hpxnytcvs"]
 
-[ext_resource type="Material" uid="uid://bcsx6o6psjvui" path="res://materials/asphalt.tres" id="1_7knip"]
 [ext_resource type="Script" path="res://scripts/Goal.gd" id="1_gyttf"]
+[ext_resource type="Script" path="res://scripts/LevelInfo.gd" id="1_wdmao"]
 [ext_resource type="PackedScene" uid="uid://b41b30lrlc88h" path="res://prefabs/vehicle.tscn" id="2_44h4w"]
-[ext_resource type="Script" path="res://scripts/LevelController.gd" id="3_n4y5v"]
+[ext_resource type="MeshLibrary" uid="uid://8cjh23xm2taa" path="res://prefabs/mesh_library.tres" id="5_mdixd"]
 [ext_resource type="Script" path="res://scripts/CameraFollow.gd" id="5_x4ba0"]
-[ext_resource type="Script" path="res://scripts/Nails.gd" id="6_86kv5"]
-[ext_resource type="PackedScene" uid="uid://d0wxb1v46ogjo" path="res://prefabs/props/cone.tscn" id="7_rmmtu"]
+[ext_resource type="PackedScene" uid="uid://vfslyt4kcmtt" path="res://prefabs/props/death_plane.tscn" id="7_oyutb"]
+[ext_resource type="PackedScene" uid="uid://dvks3301yvlb" path="res://prefabs/props/random_vehicle.tscn" id="8_w6mbx"]
+[ext_resource type="PackedScene" uid="uid://k5emosfsos2t" path="res://prefabs/world_environment.tscn" id="9_akffg"]
+[ext_resource type="PackedScene" uid="uid://bjhp0xarpd1sm" path="res://prefabs/level_controller.tscn" id="9_mnie2"]
+
+[sub_resource type="Resource" id="Resource_l1emk"]
+script = ExtResource("1_wdmao")
+level_name = "Right? Right!"
+medal_times = Array[float]([15.0, 11.0, 7.8])
+level_path = ""
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5fmg0"]
 size = Vector3(2, 4, 3)
@@ -22,235 +30,48 @@ disable_receive_shadows = true
 [sub_resource type="BoxMesh" id="BoxMesh_ltvxh"]
 size = Vector3(2, 1, 3)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_boyo1"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_rgi3u"]
-size = Vector3(30, 1, 30)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_2keb5"]
-size = Vector3(30, 1, 30)
-
-[sub_resource type="BoxMesh" id="BoxMesh_vot2a"]
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wlf77"]
-points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y8d2a"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
-[sub_resource type="Sky" id="Sky_rfqfa"]
-sky_material = SubResource("ProceduralSkyMaterial_y8d2a")
-
-[sub_resource type="Environment" id="Environment_o73c6"]
-background_mode = 2
-sky = SubResource("Sky_rfqfa")
-tonemap_mode = 2
-glow_enabled = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_4ail5"]
-size = Vector3(2, 0.1, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_mrqa1"]
-size = Vector3(1.8717, 1, 0.865967)
-
-[sub_resource type="BoxMesh" id="BoxMesh_18j3c"]
-size = Vector3(1.5, 0.65, 0.1)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_736lo"]
-points = PackedVector3Array(-0.761756, -0.336905, -0.0619048, 0.761756, 0.329762, 0.0571429, 0.761756, 0.329762, -0.0619048, -0.761756, 0.329762, 0.0571429, 0.761756, -0.336905, 0.0571429, 0.761756, -0.336905, -0.0619048, -0.761756, 0.329762, -0.0619048, -0.761756, -0.336905, 0.0571429)
-
 [node name="Level" type="Node3D"]
-metadata/level_name = "Gotta go right"
+metadata/level_info = SubResource("Resource_l1emk")
 
-[node name="Goal" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.173635, 0.403878, -5.78551)
+[node name="LevelController" parent="." instance=ExtResource("9_mnie2")]
+
+[node name="Goal" type="Area3D" parent="LevelController"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.57083, 2.85525, 2.67607)
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_gyttf")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Goal"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelController/Goal"]
 shape = SubResource("BoxShape3D_5fmg0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Goal"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelController/Goal"]
 material_override = SubResource("StandardMaterial3D_6ex22")
 mesh = SubResource("BoxMesh_ltvxh")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.625869, 0.779928, 0, -0.779928, 0.625869, 0, 5, 3.7)
+[node name="Camera3D" type="Camera3D" parent="LevelController"]
+transform = Transform3D(1, 0, 0, 0, 0.625869, 0.779928, 0, -0.779928, 0.625869, 5.35798, 6.87575, 5.20523)
 script = ExtResource("5_x4ba0")
 target_offset = Vector3(0, 5, 3.7)
 
-[node name="Vehicle" parent="." instance=ExtResource("2_44h4w")]
-transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 2, 0.338, 6.5)
+[node name="Vehicle" parent="LevelController" instance=ExtResource("2_44h4w")]
+transform = Transform3D(-1, 0, -8.74226e-08, 0, 1, 0, 8.74226e-08, 0, -1, -12.4926, 2.68009, 7.3185)
 
-[node name="LevelController" type="Node" parent="." node_paths=PackedStringArray("goal", "player", "camera")]
-script = ExtResource("3_n4y5v")
-goal = NodePath("../Goal")
-player = NodePath("../Vehicle")
-camera = NodePath("../Camera3D")
+[node name="GridMap" type="GridMap" parent="LevelController"]
+mesh_library = ExtResource("5_mdixd")
+cell_size = Vector3(2.5, 2.5, 2.5)
+data = {
+"cells": PackedInt32Array(65531, 3, 0, 65532, 3, 3, 65530, 3, 1, 65530, 2, 655362, 65530, 1, 655362, 65530, 0, 655363, 65531, 0, 1048582, 65532, 0, 1048582, 65533, 0, 1048582, 65534, 0, 1048582, 65535, 0, 1048582, 0, 0, 1048582, 1, 0, 1048582, 2, 0, 1048582, 3, 0, 1048582, 4, 0, 1048582, 5, 0, 1048582, 6, 0, 1048582, 65532, 2, 655363, 65533, 2, 1048582, 65534, 2, 1048582, 65535, 2, 1048582, 0, 2, 1048582, 1, 2, 1048582, 2, 2, 1048582, 3, 2, 1048582, 4, 2, 1048582, 5, 2, 1048582, 6, 2, 1048582, 7, 2, 1048582, 7, 0, 1048582, 7, 1, 1048583, 6, 1, 1048583, 5, 1, 1048583, 4, 1, 1048583, 3, 1, 1048583, 2, 1, 1048583, 1, 1, 1048583, 0, 1, 1048583, 65535, 1, 1048583, 65534, 1, 1048583, 65533, 1, 1048583, 65532, 1, 1048583, 65531, 2, 655364, 65531, 1, 655367, 7, 65535, 655367, 6, 65535, 655367, 5, 65535, 655367, 4, 65535, 655367, 3, 65535, 655367, 2, 65535, 655367, 1, 65535, 655367, 0, 65535, 655367, 65535, 65535, 655367, 65534, 65535, 655367, 65533, 65535, 655367, 65532, 65535, 655367, 65531, 65535, 655367, 65530, 65535, 655367, 65529, 65535, 655367, 65529, 0, 655367, 65529, 1, 655367, 65529, 2, 655367, 65529, 3, 655367, 65529, 4, 655367, 65530, 4, 655367, 65531, 4, 655367, 65532, 4, 655367, 65533, 4, 655367, 65534, 4, 655367, 65535, 4, 655367, 0, 4, 655367, 1, 4, 655367, 2, 4, 655367, 3, 4, 655367, 4, 4, 655367, 5, 4, 655367, 6, 4, 655367, 7, 4, 655367, 7, 3, 655367, 6, 3, 655367, 5, 3, 655367, 4, 3, 655367, 3, 3, 655367, 2, 3, 655367, 1, 3, 655367, 0, 3, 655367, 65535, 3, 655367, 65534, 3, 655367, 65533, 3, 655367, -7, 4, 655368, -6, 4, 655368, -5, 4, 655368, -4, 4, 655368, -3, 4, 655368, -2, 4, 655368, -1, 4, 655368, -65536, 4, 655368, -65535, 4, 655368, -65534, 4, 655368, -65533, 4, 655368, -65532, 4, 655368, -65531, 4, 655368, -65530, 4, 655368, -65529, 4, 655368, -7, 3, 655368, -7, 2, 655368, -7, 1, 655368, -7, 0, 655368, -7, 65535, 655368, -6, 65535, 655368, -5, 65535, 655368, -4, 65535, 655368, -3, 65535, 655368, -2, 65535, 655368, -1, 65535, 655368, -65536, 65535, 655368, -65535, 65535, 655368, -65534, 65535, 655368, -65533, 65535, 655368, -65532, 65535, 655368, -65531, 65535, 655368, -65530, 65535, 655368, -65529, 65535, 655368, -65529, 0, 655368, -65529, 1, 655368, -65529, 2, 655368, -65529, 3, 655368, -131065, 4, 655368, -131066, 4, 655368, -131067, 4, 655368, -131068, 4, 655368, -131069, 4, 655368, -131070, 4, 655368, -131071, 4, 655368, -131072, 4, 655368, -65537, 4, 655368, -65538, 4, 655368, -65539, 4, 655368, -65540, 4, 655368, -65541, 4, 655368, -65542, 4, 655368, -65543, 4, 655368, -131065, 65535, 655368, -131065, 0, 655368, -131065, 1, 655368, -131065, 2, 655368, -131065, 3, 655368, -131066, 65535, 655368, -131067, 65535, 655368, -131068, 65535, 655368, -131069, 65535, 655368, -131072, 65535, 655368, -65537, 65535, 655368, -65538, 65535, 655368, -65539, 65535, 655368, -65540, 65535, 655368, -65541, 65535, 655368, -65542, 65535, 655368, -65543, 65535, 655368, -131070, 65535, 655368, -131071, 65535, 655368, -65543, 3, 655368, -65543, 2, 655368, -65543, 1, 655368, -65543, 0, 655368)
+}
+metadata/_editor_floor_ = Vector3(0, -2, 0)
 
-[node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-physics_material_override = SubResource("PhysicsMaterial_boyo1")
+[node name="DeathPlane" parent="LevelController" instance=ExtResource("7_oyutb")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-material_override = ExtResource("1_7knip")
-mesh = SubResource("BoxMesh_rgi3u")
+[node name="PropVehicle" parent="LevelController" instance=ExtResource("8_w6mbx")]
+transform = Transform3D(0.0802337, 0, 0.996776, 0, 1, 0, -0.996776, 0, 0.0802337, -10.01, 2.9441, 7.55845)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("BoxShape3D_2keb5")
+[node name="WorldEnvironment" parent="LevelController" instance=ExtResource("9_akffg")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 8)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D3" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D4" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D4"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D5" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 6)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D5"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D5"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D6" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 7)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D6"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D6"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D7" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 8)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D7"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D7"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D8" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 8)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D8"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D8"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D9" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -8)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D9"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D9"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D10" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.5, -7)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D10"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D10"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D13" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.5, -5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D13"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D13"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D11" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9, 0.5, -7)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D11"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D11"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="StaticBody3D12" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9, 0.5, -5)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D12"]
-mesh = SubResource("BoxMesh_vot2a")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D12"]
-shape = SubResource("ConvexPolygonShape3D_wlf77")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_o73c6")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, -0.389964, 0.897881, 0.2043, -0.312935, 0.0794377, -0.946447, 0, 5, 3.7)
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="LevelController"]
+transform = Transform3D(-0.932382, -0.215522, 0.290196, -0.0219785, 0.835129, 0.549615, -0.360805, 0.506073, -0.783396, 0, 5, 3.7)
+light_energy = 3.051
 shadow_enabled = true
-
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(0.0160215, 0, -0.999872, 0, 1, 0, 0.999872, 0, 0.0160215, -1.55535, -4.76837e-07, 6.42747)
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("6_86kv5")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
-mesh = SubResource("BoxMesh_4ail5")
-skeleton = NodePath("")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00734329, -0.0273962, 0.0098877)
-shape = SubResource("BoxShape3D_mrqa1")
-
-[node name="fence" type="RigidBody3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.49395, 0.340907, 4.35058)
-mass = 5.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="fence"]
-mesh = SubResource("BoxMesh_18j3c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="fence"]
-shape = SubResource("ConvexPolygonShape3D_736lo")
-
-[node name="cone" parent="." instance=ExtResource("7_rmmtu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.663977, 0.223912, 7.85567)
-
-[node name="cone2" parent="." instance=ExtResource("7_rmmtu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.143959, 0.223912, 7.85567)
