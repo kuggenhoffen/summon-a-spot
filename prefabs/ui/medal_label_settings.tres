@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dejw6aygivyxe"]
+
+[ext_resource type="SystemFont" uid="uid://7da4r7pmsgxw" path="res://fonts/button_font.tres" id="1_pn6wb"]
+
+[resource]
+font = ExtResource("1_pn6wb")
+font_size = 42
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)

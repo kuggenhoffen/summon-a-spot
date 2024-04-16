@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://eju6qkskvogc"]
+
+[ext_resource type="Script" path="res://scripts/CameraFollow.gd" id="1_qpoci"]
+
+[node name="Camera3D" type="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.625869, 0.779928, 0, -0.779928, 0.625869, 2.62903, 5, -10.6332)
+current = true
+script = ExtResource("1_qpoci")
+target_offset = Vector3(0, 5, 3.7)

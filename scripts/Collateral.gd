@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends PhysicsBody3D
 class_name Collateral
 
 @export var penalty_time: float

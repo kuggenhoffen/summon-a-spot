@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://kwekv4ndcl60"]
+[gd_scene load_steps=7 format=3 uid="uid://kwekv4ndcl60"]
 
 [ext_resource type="Script" path="res://scripts/MedalShowcaseUI.gd" id="1_stleo"]
 [ext_resource type="SystemFont" uid="uid://7da4r7pmsgxw" path="res://fonts/button_font.tres" id="2_wndhl"]
 [ext_resource type="Texture2D" uid="uid://be2e2wkdcktfc" path="res://textures/medal_bronze.png" id="3_gtwj4"]
+[ext_resource type="LabelSettings" uid="uid://dejw6aygivyxe" path="res://prefabs/ui/medal_label_settings.tres" id="3_ycsv5"]
 [ext_resource type="Texture2D" uid="uid://c53mc2f0762iv" path="res://textures/medal_silver.png" id="4_syxe0"]
 [ext_resource type="Texture2D" uid="uid://dofls4mtev64c" path="res://textures/medal_gold.png" id="5_h23ic"]
 
@@ -19,6 +20,7 @@ theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_wndhl")
 theme_override_font_sizes/font_size = 60
 text = "1:20"
+label_settings = ExtResource("3_ycsv5")
 
 [node name="BronzeMedal" type="TextureRect" parent="."]
 layout_mode = 2
@@ -38,6 +40,7 @@ theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_wndhl")
 theme_override_font_sizes/font_size = 60
 text = "1:00"
+label_settings = ExtResource("3_ycsv5")
 
 [node name="SilverMedal" type="TextureRect" parent="."]
 layout_mode = 2
@@ -57,6 +60,7 @@ theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_wndhl")
 theme_override_font_sizes/font_size = 60
 text = "0:55"
+label_settings = ExtResource("3_ycsv5")
 
 [node name="GoldMedal" type="TextureRect" parent="."]
 layout_mode = 2

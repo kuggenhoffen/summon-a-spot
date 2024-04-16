@@ -13,7 +13,10 @@ enum ScoreState {
 signal restart_pressed()
 signal next_level_pressed()
 signal menu_pressed()
+signal play_sound(sfx: AudioStream)
 
+const BLIP_SFX: AudioStream = preload("res://sfx/blip.wav")
+const MEDAL_SFX: AudioStream = preload("res://sfx/medal1.wav")
 const PENALTY_ITEM: PackedScene = preload("res://prefabs/ui/penalty_item.tscn")
 
 @onready var time_label: Label = $VBoxContainer/Panel3/TimeContainer/TimeLabel
@@ -63,6 +66,7 @@ func advance_state(complete_state: bool = false):
             next_level_button.grab_focus.call_deferred()
             state_timer.start(1.0)
         ScoreState.SHOW_TIME:
+            play_sound.emit(BLIP_SFX)
             state = ScoreState.SHOW_PENALTIES
             time_label.text = Utils.format_time(finish_time)
             state_timer.start(1.0)
@@ -71,6 +75,7 @@ func advance_state(complete_state: bool = false):
                 var penalty_item = PENALTY_ITEM.instantiate()
                 penalty_item.text = "None"
                 penalty_container.add_child(penalty_item)
+                play_sound.emit(BLIP_SFX)
             if penalty_index >= penalties.size():
                 state = ScoreState.SHOW_TOTAL
                 state_timer.start(0.0)
@@ -83,15 +88,17 @@ func advance_state(complete_state: bool = false):
                     await get_tree().process_frame
                     penalty_scroll_container.ensure_control_visible(penalty_item)
                     if not complete_state:
+                        play_sound.emit(BLIP_SFX)
                         state_timer.start(0.5)
                         break
         ScoreState.SHOW_TOTAL:
+            play_sound.emit(BLIP_SFX)
             state = ScoreState.SHOW_MEDAL
             total_label.text = Utils.format_time(total_time)
             state_timer.start(1.0)
         ScoreState.SHOW_MEDAL:
             state = ScoreState.READY
-            medal_reveal.reveal(1.0, Utils.get_medal(total_time, level_info))
+            medal_reveal.reveal(0.5, Utils.get_medal(total_time, level_info), func(): play_sound.emit(MEDAL_SFX))
             state_timer.start(0.0)
         ScoreState.READY:
             print("Grabbing focus")

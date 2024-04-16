@@ -26,10 +26,13 @@ var reverse_timer: float = 0.0
 
 var wheels: Array = []
 var last_linear_velocity: Vector3 = Vector3.ZERO
+var pop_count: int = 0
 
 @onready var engine_audio: AudioStreamPlayer3D = $EngineAudioPlayer
 @onready var crash_audio: AudioStreamPlayer3D = $CrashAudioPlayer
 @onready var pop_audio: AudioStreamPlayer3D = $PopAudioPlayer
+@onready var screech_audio: AudioStreamPlayer3D = $TireScreechAudioPlayer
+@onready var dragging_audio: AudioStreamPlayer3D = $DraggingAudioPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,23 +41,25 @@ func _ready():
             wheels.append(child)
             child.popped.connect(on_tire_popped.bind(child))
             child.max_steering_angle = MAX_STEERING_ANGLE
-    engine_audio.playing = true
-
+    screech_audio.set_volume_db(-80)
+    dragging_audio.set_volume_db(-80)
+    
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
     forward_input = Input.get_action_strength("forward")
     steer_input = Input.get_action_strength("left") - Input.get_action_strength("right")
     backward_input = Input.get_action_strength("backward")
-
+    if screech_audio.playing == freeze:
+        screech_audio.playing = !freeze
+    if engine_audio.playing == freeze:
+        engine_audio.playing = !freeze
 
 func _physics_process(delta):
     update_audio()
     var linear_velocity_change: Vector3 = get_linear_velocity() - last_linear_velocity
     #print("Last linear velocity: ", last_linear_velocity.length())
     if linear_velocity_change.length() > 0.3:
-        print("Linear velocity change: ", linear_velocity_change.length())
-        print("Collision count: ", get_colliding_bodies().size())
         for b in get_colliding_bodies():
             if b is Collateral:
                 collateral_damage.emit(b.apply_penalty())
@@ -119,10 +124,13 @@ func _physics_process(delta):
     set_brake(brake_amount * BRAKE_FORCE)
 
 func on_tire_popped(wheel: Wheel):
-    print("Wheel popped: ", wheel.position)
     apply_impulse(Vector3.UP * 20.0, wheel.global_position - global_position)
     tire_popped.emit()
     pop_audio.play()
+    if not dragging_audio.playing:
+        dragging_audio.play()
+    pop_count += 1
+
 
 func death_plane_hit():
     fell_off.emit()
@@ -139,5 +147,7 @@ func update_audio():
     if count > 0:
         wheel_speed /= count
     slipping /= float(wheels.size())
-    print("Slipping: ", slipping)
+    screech_audio.volume_db = lerp(-10, -80, clampf(inverse_lerp(0.5, 1.0, slipping), 0.0, 1.0))
     engine_audio.set_pitch_scale(lerp(0.4, 1.5, abs(wheel_speed) / 300.0))
+    if pop_count > 0:
+        dragging_audio.set_volume_db(lerp(-80, -5,  last_linear_velocity.length() / 4 * pop_count))

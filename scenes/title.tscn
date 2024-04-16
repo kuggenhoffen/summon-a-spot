@@ -1,34 +1,46 @@
-[gd_scene load_steps=12 format=3 uid="uid://ci7087cujbi07"]
+[gd_scene load_steps=17 format=3 uid="uid://ci7087cujbi07"]
 
 [ext_resource type="Script" path="res://scripts/TitleController.gd" id="1_ev5ys"]
 [ext_resource type="SystemFont" uid="uid://7da4r7pmsgxw" path="res://fonts/button_font.tres" id="1_vt7hl"]
 [ext_resource type="StyleBox" uid="uid://drnkh7rc7uga8" path="res://themes/box_style_button_flat.tres" id="2_wuktl"]
 [ext_resource type="PackedScene" uid="uid://bfbgipta2pa8f" path="res://prefabs/ui/level_item.tscn" id="5_8mh26"]
+[ext_resource type="Shortcut" uid="uid://bpmgv078wrhhu" path="res://prefabs/ui/back_shortcut.tres" id="5_m256v"]
 [ext_resource type="StyleBox" uid="uid://cjxq1drapt3uk" path="res://themes/box_style_button_hover.tres" id="6_tfl8d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2j20"]
 bg_color = Color(0.65098, 0.65098, 0.65098, 0.368627)
 
+[sub_resource type="ImageTexture" id="ImageTexture_eu6br"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eos35"]
+content_margin_top = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.279535, 0.220157, 4.81308e-08, 1)
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dfuvr"]
+bg_color = Color(0.90569, 0.735172, 0, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pjv0h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4dy3f"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j02f0"]
+bg_color = Color(0, 0.301961, 0.643137, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_u4dsy"]
+font_names = PackedStringArray("Segoe UI")
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ex18"]
+font_size = 125
+outline_size = 15
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xpy7"]
 content_margin_top = 300.0
 
-[sub_resource type="InputEventAction" id="InputEventAction_xlhff"]
-action = &"ui_cancel"
-
-[sub_resource type="Shortcut" id="Shortcut_fivke"]
-events = [SubResource("InputEventAction_xlhff")]
-
-[node name="Node3D" type="Node3D" node_paths=PackedStringArray("level_select", "level_select_focus", "main_screen", "main_screen_focus", "level_select_container")]
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("level_select_focus")]
 script = ExtResource("1_ev5ys")
-level_select = NodePath("LevelSelect")
 level_select_focus = NodePath("LevelSelect/Panel/Panel2/VBoxContainer/BackBtn")
-main_screen = NodePath("Main")
-main_screen_focus = NodePath("Main/VBoxContainer/StartBtn")
-level_select_container = NodePath("LevelSelect/Panel/ScrollContainer/VBoxContainer")
 
 [node name="Main" type="PanelContainer" parent="."]
 anchors_preset = 14
@@ -43,13 +55,101 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_w2j20")
 
-[node name="VBoxContainer" type="HBoxContainer" parent="Main"]
+[node name="OptionsContainer" type="VBoxContainer" parent="Main"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Panel4" type="PanelContainer" parent="Main/OptionsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_w2j20")
+
+[node name="Label" type="Label" parent="Main/OptionsContainer/Panel4"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_fonts/font = ExtResource("1_vt7hl")
+theme_override_font_sizes/font_size = 100
+text = "Options"
+
+[node name="MarginContainer" type="MarginContainer" parent="Main/OptionsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_right = 150
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Main/OptionsContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Label2" type="Label" parent="Main/OptionsContainer/MarginContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("1_vt7hl")
+theme_override_font_sizes/font_size = 60
+text = "Audio"
+horizontal_alignment = 2
+
+[node name="MasterSlider" type="HSlider" parent="Main/OptionsContainer/MarginContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/grabber_offset = 0
+theme_override_icons/grabber = SubResource("ImageTexture_eu6br")
+theme_override_styles/slider = SubResource("StyleBoxFlat_eos35")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_dfuvr")
+min_value = -60.0
+max_value = 0.0
+step = 5.0
+value = -5.0
+
+[node name="BackBtn" type="Button" parent="Main/OptionsContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("1_vt7hl")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("2_wuktl")
+theme_override_styles/hover = ExtResource("6_tfl8d")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pjv0h")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4dy3f")
+theme_override_styles/focus = ExtResource("6_tfl8d")
+shortcut = ExtResource("5_m256v")
+text = "Back"
+
+[node name="StartMenu" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="PanelContainer" type="PanelContainer" parent="Main/StartMenu"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j02f0")
+
+[node name="Label" type="Label" parent="Main/StartMenu/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = SubResource("SystemFont_u4dsy")
+theme_override_font_sizes/font_size = 100
+text = "SUMMON -a- SPOT"
+label_settings = SubResource("LabelSettings_8ex18")
+
+[node name="StartMenuContainer" type="HBoxContainer" parent="Main/StartMenu"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="StartBtn" type="Button" parent="Main/VBoxContainer"]
+[node name="StartBtn" type="Button" parent="Main/StartMenu/StartMenuContainer"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 50
@@ -63,7 +163,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_4dy3f")
 theme_override_styles/focus = ExtResource("6_tfl8d")
 text = "Start"
 
-[node name="OptionsBtn" type="Button" parent="Main/VBoxContainer"]
+[node name="OptionsBtn" type="Button" parent="Main/StartMenu/StartMenuContainer"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 50
@@ -76,7 +176,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_4dy3f")
 theme_override_styles/focus = ExtResource("6_tfl8d")
 text = "Options"
 
-[node name="ExitBtn" type="Button" parent="Main/VBoxContainer"]
+[node name="ExitBtn" type="Button" parent="Main/StartMenu/StartMenuContainer"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 50
@@ -106,6 +206,18 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 25
 
+[node name="PanelContainer" type="PanelContainer" parent="LevelSelect/Panel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j02f0")
+
+[node name="Label" type="Label" parent="LevelSelect/Panel/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = SubResource("SystemFont_u4dsy")
+theme_override_font_sizes/font_size = 100
+text = "SUMMON -a- SPOT"
+label_settings = SubResource("LabelSettings_8ex18")
+
 [node name="Panel3" type="PanelContainer" parent="LevelSelect/Panel"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -128,12 +240,12 @@ size_flags_vertical = 3
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LevelSelect/Panel/ScrollContainer"]
+[node name="LevelSelectContainer" type="VBoxContainer" parent="LevelSelect/Panel/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LevelItem" parent="LevelSelect/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("5_8mh26")]
+[node name="LevelItem" parent="LevelSelect/Panel/ScrollContainer/LevelSelectContainer" instance=ExtResource("5_8mh26")]
 visible = false
 layout_mode = 2
 
@@ -162,10 +274,12 @@ theme_override_styles/hover = ExtResource("6_tfl8d")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pjv0h")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_4dy3f")
 theme_override_styles/focus = ExtResource("6_tfl8d")
-shortcut = SubResource("Shortcut_fivke")
+shortcut = ExtResource("5_m256v")
 text = "Back"
 
-[connection signal="pressed" from="Main/VBoxContainer/StartBtn" to="." method="_on_start_btn_pressed"]
-[connection signal="pressed" from="Main/VBoxContainer/OptionsBtn" to="." method="_on_options_btn_pressed"]
-[connection signal="pressed" from="Main/VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]
+[connection signal="value_changed" from="Main/OptionsContainer/MarginContainer/HBoxContainer2/MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="pressed" from="Main/OptionsContainer/BackBtn" to="." method="_on_options_back_btn_pressed"]
+[connection signal="pressed" from="Main/StartMenu/StartMenuContainer/StartBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="pressed" from="Main/StartMenu/StartMenuContainer/OptionsBtn" to="." method="_on_options_btn_pressed"]
+[connection signal="pressed" from="Main/StartMenu/StartMenuContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]
 [connection signal="pressed" from="LevelSelect/Panel/Panel2/VBoxContainer/BackBtn" to="." method="_on_level_select_back_btn_pressed"]

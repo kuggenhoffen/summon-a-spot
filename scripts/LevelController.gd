@@ -8,6 +8,10 @@ enum LevelState {
 }
 
 
+const BEEP_SHORT: AudioStream = preload("res://sfx/beep_short.wav")
+const BEEP_LONG: AudioStream = preload("res://sfx/beep_long.wav")
+
+
 @export var goal: Goal = null
 @export var player: VehicleController = null
 @export var camera: CameraFollow = null
@@ -15,6 +19,7 @@ enum LevelState {
 @onready var timer_label: Label = $TimerLabel
 @onready var score_screen: ScorePanelHandler = $ScorePanel
 @onready var pause_screen: PausePanelHandler = $PausePanel
+@onready var audio_player: AudioStreamPlayer = $AudioPlayer
 
 
 #var score_handler: ScoreHandler = ScoreHandler.new()
@@ -25,6 +30,7 @@ var countdown: float = 5.0
 var penalties: Array[Penalty] = []
 var level_info: LevelInfo = null
 var countdown_finished: bool = false
+var current_countdown: int = 0
 
 
 
@@ -44,34 +50,42 @@ func _ready():
     countdown_label.show()
     timer_label.hide()
     pause_screen.hide()
+    pause_screen.set_level_info(level_info)
     score_screen.set_level_info(level_info)
+    score_screen.play_sound.connect(play_sfx)
+
 
 func start():
     if state == LevelState.COUNTDOWN:
         state = LevelState.IN_PROGRESS
         player.freeze = false
         timer = 0.0
+        play_sfx(BEEP_LONG)
 
 func _process(delta):
     if Input.is_action_just_pressed("ui_cancel"):
         pause_screen.pause.call_deferred()
 
     if not countdown_finished:
-        update_countdown_label(countdown, true)
+        update_countdown_label(ceil(countdown), true)
         if timer > 2.0:
             countdown_finished = true
-        countdown_label.hide()
+            countdown_label.hide()
 
     if state == LevelState.IN_PROGRESS:
         timer += delta
         update_timer_label()
     elif state == LevelState.COUNTDOWN:
-        countdown_label.show()
         countdown -= delta
         if countdown <= 0:
             start()
+        else:
+            var new_countdown = ceil(countdown)
+            if new_countdown > 0 and new_countdown <= 3 and new_countdown != current_countdown:
+                current_countdown = ceil(countdown)
+                play_sfx(BEEP_SHORT)
 
-func update_countdown_label(time: float, with_level: bool = false):
+func update_countdown_label(time: int, with_level: bool = false):
     countdown_label.show()
     countdown_label.text = ""
     if time > 3.0:
@@ -81,7 +95,7 @@ func update_countdown_label(time: float, with_level: bool = false):
     elif time > 0.0:
         if with_level:
             countdown_label.text = level_info.level_name + "\n"
-        countdown_label.text += str(int(ceil(time)))
+        countdown_label.text += str(time)
     elif time > -2.0:
         countdown_label.text = "Go!"
 
@@ -92,7 +106,7 @@ func update_timer_label():
 
 
 func on_in_goal_area(time_left: float):
-    update_countdown_label(time_left)
+    update_countdown_label(ceil(time_left))
     if time_left <= 0:
         countdown_label.hide()
         on_player_finished()
@@ -143,3 +157,9 @@ func pause():
 func unpause():
     pause_screen.hide()
     get_tree().paused = false
+
+
+func play_sfx(sfx: AudioStream):
+    audio_player.stream = sfx
+    audio_player.play()
+

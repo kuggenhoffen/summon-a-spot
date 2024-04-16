@@ -8,6 +8,7 @@ signal resume_pressed()
 @onready var restart_button = $VBoxContainer/Panel2/ButtonsContainer/RestartBtn
 @onready var menu_button = $VBoxContainer/Panel2/ButtonsContainer/MenuBtn
 @onready var resume_button = $VBoxContainer/Panel2/ButtonsContainer/ResumeBtn
+@onready var medal_showcase = $VBoxContainer/Panel6/MedalShowcase
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -44,3 +45,6 @@ func pause():
     get_tree().paused = true
     show()
     resume_button.grab_focus()
+
+func set_level_info(level_info: LevelInfo):
+    medal_showcase.set_times(level_info)

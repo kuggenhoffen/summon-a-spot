@@ -49,7 +49,7 @@ static func get_levels() -> Array[LevelInfo]:
     var levels: Array[LevelInfo] = []
     var temp_levels = DirAccess.get_files_at(level_directory)
     for level_filename in temp_levels:
-        var level_path: String = get_level_path(level_filename)
+        var level_path: String = get_level_path(level_filename.trim_suffix(".remap"))
         var level_info = get_level_info(level_path)
         if level_info == null:
             continue
@@ -59,19 +59,19 @@ static func get_levels() -> Array[LevelInfo]:
 
 static func restart_scene(tree: SceneTree) -> void:
     var restart: Callable = func _restart_scene():
-        tree.set_pause(false)
         tree.reload_current_scene()
+        tree.set_pause(false)
     restart.call_deferred()
 
 static func show_menu_scene(tree: SceneTree) -> void:
     var show_menu: Callable = func _show_menu_scene():
-        tree.set_pause(false)
         tree.change_scene_to_file("res://scenes/title.tscn")
+        tree.set_pause(false)
     show_menu.call_deferred()
 
 static func load_next_or_menu(tree: SceneTree, current_level: LevelInfo):
     var load_next: Callable =  func():
-        tree.set_pause(false)
+        #tree.set_pause(false)
         var levels = get_levels()
         var next_level_index = levels.find(current_level) + 1
         if next_level_index < levels.size():
@@ -79,4 +79,18 @@ static func load_next_or_menu(tree: SceneTree, current_level: LevelInfo):
             tree.change_scene_to_file(next_level.level_path)
         else:
             show_menu_scene(tree)
+        tree.set_pause(false)
     load_next.call_deferred()
+
+
+static func set_setting(setting: String, value: Variant) -> void:
+    var config = ConfigFile.new()
+    config.load("user://settings.cfg")
+    config.set_value("settings", setting, value)
+    config.save("user://settings.cfg")
+
+static func get_setting(setting: String, default_value: Variant) -> Variant:
+    var config = ConfigFile.new()
+    if not config.load("user://settings.cfg") == OK:
+        return default_value
+    return config.get_value("settings", setting, default_value)

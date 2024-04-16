@@ -4,10 +4,10 @@
 [ext_resource type="Script" path="res://scripts/LevelInfo.gd" id="1_wdmao"]
 [ext_resource type="PackedScene" uid="uid://b41b30lrlc88h" path="res://prefabs/vehicle.tscn" id="2_44h4w"]
 [ext_resource type="MeshLibrary" uid="uid://8cjh23xm2taa" path="res://prefabs/mesh_library.tres" id="5_mdixd"]
-[ext_resource type="Script" path="res://scripts/CameraFollow.gd" id="5_x4ba0"]
 [ext_resource type="PackedScene" uid="uid://vfslyt4kcmtt" path="res://prefabs/props/death_plane.tscn" id="7_oyutb"]
 [ext_resource type="PackedScene" uid="uid://dvks3301yvlb" path="res://prefabs/props/random_vehicle.tscn" id="8_w6mbx"]
 [ext_resource type="PackedScene" uid="uid://k5emosfsos2t" path="res://prefabs/world_environment.tscn" id="9_akffg"]
+[ext_resource type="PackedScene" uid="uid://eju6qkskvogc" path="res://prefabs/camera..tscn" id="9_cbg46"]
 [ext_resource type="PackedScene" uid="uid://bjhp0xarpd1sm" path="res://prefabs/level_controller.tscn" id="9_mnie2"]
 
 [sub_resource type="Resource" id="Resource_l1emk"]
@@ -48,11 +48,6 @@ shape = SubResource("BoxShape3D_5fmg0")
 material_override = SubResource("StandardMaterial3D_6ex22")
 mesh = SubResource("BoxMesh_ltvxh")
 
-[node name="Camera3D" type="Camera3D" parent="LevelController"]
-transform = Transform3D(1, 0, 0, 0, 0.625869, 0.779928, 0, -0.779928, 0.625869, 5.35798, 6.87575, 5.20523)
-script = ExtResource("5_x4ba0")
-target_offset = Vector3(0, 5, 3.7)
-
 [node name="Vehicle" parent="LevelController" instance=ExtResource("2_44h4w")]
 transform = Transform3D(-1, 0, -8.74226e-08, 0, 1, 0, 8.74226e-08, 0, -1, -12.4926, 2.68009, 7.3185)
 
@@ -75,3 +70,6 @@ transform = Transform3D(0.0802337, 0, 0.996776, 0, 1, 0, -0.996776, 0, 0.0802337
 transform = Transform3D(-0.932382, -0.215522, 0.290196, -0.0219785, 0.835129, 0.549615, -0.360805, 0.506073, -0.783396, 0, 5, 3.7)
 light_energy = 3.051
 shadow_enabled = true
+
+[node name="Camera3D" parent="LevelController" instance=ExtResource("9_cbg46")]
+transform = Transform3D(1, 0, 0, 0, 0.625869, 0.779928, 0, -0.779928, 0.625869, 5.35798, 6.87575, 5.20523)

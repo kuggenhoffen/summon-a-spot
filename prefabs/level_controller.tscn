@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://j3jj5e4xevey" path="res://textures/medal.png" id="4_o5htq"]
 [ext_resource type="Script" path="res://scripts/MedalReveal.gd" id="5_jk0yn"]
 [ext_resource type="StyleBox" uid="uid://cjxq1drapt3uk" path="res://themes/box_style_button_hover.tres" id="5_rnj51"]
-[ext_resource type="Script" path="res://prefabs/PausePanelHandler.gd" id="6_e7pws"]
+[ext_resource type="Script" path="res://scripts/PausePanelHandler.gd" id="9_3vbhr"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gyyf"]
 content_margin_left = 975.0
@@ -101,6 +101,7 @@ horizontal_alignment = 1
 
 [node name="ScorePanel" type="PanelContainer" parent="."]
 process_mode = 2
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -316,13 +317,12 @@ text = "Continue"
 
 [node name="PausePanel" type="PanelContainer" parent="."]
 process_mode = 2
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("6_e7pws")
+script = ExtResource("9_3vbhr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PausePanel"]
 layout_mode = 2
@@ -350,15 +350,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_imehs")
 
-[node name="Label" type="Label" parent="PausePanel/VBoxContainer/Panel6"]
+[node name="MedalShowcase" parent="PausePanel/VBoxContainer/Panel6" instance=ExtResource("4_cd5ah")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(1, 0.803922, 0.364706, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 50
-theme_override_fonts/font = ExtResource("2_8ai13")
-theme_override_font_sizes/font_size = 100
-text = "Gold 1:10 Silver 1:38 Bronze 2:00"
 
 [node name="Panel2" type="PanelContainer" parent="PausePanel/VBoxContainer"]
 layout_mode = 2
@@ -416,3 +409,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_j1kob")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_5q7sq")
 theme_override_styles/focus = ExtResource("5_rnj51")
 text = "Resume"
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"

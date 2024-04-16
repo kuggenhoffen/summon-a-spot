@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b41b30lrlc88h"]
+[gd_scene load_steps=21 format=3 uid="uid://b41b30lrlc88h"]
 
 [ext_resource type="Script" path="res://scripts/VehicleController.gd" id="1_ybgjr"]
 [ext_resource type="Script" path="res://scripts/Wheel.gd" id="3_qeyl7"]
@@ -13,8 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://dtvvtl06cbmpa" path="res://prefabs/vehicle_parts/front_bumper.tscn" id="10_ip206"]
 [ext_resource type="AudioStream" uid="uid://cf2x5j22r6p1b" path="res://sfx/engine2.wav" id="12_onmil"]
 [ext_resource type="AudioStream" uid="uid://bdbh6bo8lat0p" path="res://sfx/tirepop1.wav" id="13_grhoy"]
-[ext_resource type="AudioStream" uid="uid://24eqv6hswwd5" path="res://sfx/tireflat2.wav" id="13_v1gxe"]
+[ext_resource type="AudioStream" uid="uid://qkn4camhg5iu" path="res://sfx/dragging.wav" id="13_lmc1b"]
 [ext_resource type="AudioStream" uid="uid://ipx48qxuufcd" path="res://sfx/tirepop2.wav" id="14_6fw7g"]
+[ext_resource type="AudioStream" uid="uid://cr48218pptgy5" path="res://sfx/tire_screech2.wav" id="16_4unkn"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qfu5k"]
 top_radius = 0.2
@@ -179,19 +180,31 @@ shape = SubResource("ConvexPolygonShape3D_5gnlt")
 [node name="EngineAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
 stream = ExtResource("12_onmil")
+volume_db = 15.802
+max_db = 6.0
+bus = &"SFX"
 
-[node name="FlatAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+[node name="DraggingAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
-stream = ExtResource("13_v1gxe")
-volume_db = -12.33
+stream = ExtResource("13_lmc1b")
+bus = &"SFX"
 
 [node name="CrashAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
 stream = SubResource("AudioStreamRandomizer_lxm3c")
 max_polyphony = 2
+bus = &"SFX"
 
 [node name="PopAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.09464e-08, 0.358207, 0.811532)
 stream = SubResource("AudioStreamRandomizer_lxm3c")
 volume_db = -11.852
 max_polyphony = 2
+bus = &"SFX"
+
+[node name="TireScreechAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.41893e-07, 0.716414, 1.62306)
+stream = ExtResource("16_4unkn")
+volume_db = -2.964
+pitch_scale = 1.05
+bus = &"SFX"

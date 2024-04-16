@@ -1,10 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://dvks3301yvlb"]
+[gd_scene load_steps=23 format=3 uid="uid://dvks3301yvlb"]
 
 [ext_resource type="Script" path="res://scripts/Collateral.gd" id="1_dpccb"]
 [ext_resource type="Script" path="res://scripts/VehicleRandomizer.gd" id="1_t7hwo"]
 [ext_resource type="PackedScene" uid="uid://vsq025ltyn8b" path="res://prefabs/vehicle_parts/body_estate.tscn" id="2_tt41x"]
+[ext_resource type="Shader" path="res://shaders/random_vehicle.gdshader" id="3_dm6nb"]
 [ext_resource type="PackedScene" uid="uid://dj6paq2h006m2" path="res://prefabs/vehicle_parts/body_pickup.tscn" id="3_e4t6j"]
+[ext_resource type="Texture2D" uid="uid://nc7i8ivlosit" path="res://textures/vehicle_palette.png" id="3_kb6iw"]
 [ext_resource type="Material" uid="uid://bx83eb58w6g5x" path="res://materials/prop_material.tres" id="3_mjdj2"]
+[ext_resource type="Material" uid="uid://c32dckykaf86w" path="res://materials/vehicle_material.tres" id="3_yih87"]
 [ext_resource type="PackedScene" uid="uid://crrsdix14pjuw" path="res://prefabs/vehicle_parts/body_sedan.tscn" id="4_0rofg"]
 [ext_resource type="PackedScene" uid="uid://brpwc4klkib3m" path="res://prefabs/vehicle_parts/body_van.tscn" id="5_8yxi8"]
 [ext_resource type="PackedScene" uid="uid://dtvvtl06cbmpa" path="res://prefabs/vehicle_parts/front_bumper.tscn" id="6_lpiln"]
@@ -17,11 +20,28 @@
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d3b0d"]
 points = PackedVector3Array(-1.46959, -0.229974, -0.682347, -1.46959, -0.229974, 0.682332, -1.46959, 0.230717, -0.682347, 1.66156, -0.229974, -0.682347, -1.46959, 0.230717, 0.682332, 1.66156, -0.229974, 0.682332, -0.207445, 1.00583, -0.682347, 1.66156, 0.408437, -0.682347, -0.207445, 1.00583, 0.682332, 1.66156, 0.408437, 0.682332, 1.48502, 1.00583, -0.682347, 1.4936, 0.977163, -0.652425, 1.48502, 1.00583, 0.682332, 1.4936, 0.977163, 0.652276)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_citxm"]
+render_priority = 0
+shader = ExtResource("3_dm6nb")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/texture_albedo = ExtResource("3_kb6iw")
+
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xik31"]
 points = PackedVector3Array(-1.46959, -0.229974, -0.682347, -1.46959, -0.229974, 0.682332, -1.46959, 0.230717, -0.682347, 1.66156, -0.229974, -0.682347, -1.46959, 0.230717, 0.682332, 1.66156, -0.229974, 0.682332, -0.207445, 1.00583, -0.682347, 1.66156, 0.408437, -0.682347, -0.207445, 1.00583, 0.682332, 1.66156, 0.408437, 0.682332, 0.245554, 1.00583, -0.682347, 0.245554, 1.00583, 0.682332)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_k72yv"]
 points = PackedVector3Array(-1.46959, -0.229974, -0.682347, -1.46959, -0.229974, 0.682332, -1.46959, 0.230717, -0.682347, 1.66156, -0.229974, -0.682347, -1.46959, 0.230717, 0.682332, 1.66156, -0.229974, 0.682332, -0.207445, 1.00583, -0.682347, 1.66156, 0.254913, -0.682347, -0.207445, 1.00583, 0.682332, 1.66156, 0.254913, 0.682332, 0.698247, 1.00583, -0.682347, 0.698247, 1.00583, 0.682332)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_r05bk"]
+points = PackedVector3Array(-1.46959, -0.229974, -0.682347, -1.46959, -0.229974, 0.682332, -1.46959, 0.230717, -0.682347, 1.66156, -0.229974, -0.682347, -1.46959, 0.230717, 0.682332, 1.66156, -0.229974, 0.682332, -0.207445, 1.00583, -0.682347, 1.66156, 0.408437, -0.682347, -0.207445, 1.00583, 0.682332, 1.66156, 0.408437, 0.682332, 1.48502, 1.00583, -0.682347, 1.48502, 1.00583, 0.682332)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_3nefs"]
 height = 0.125
@@ -34,24 +54,31 @@ penalty_time = 10.0
 penalty_reason = "Dented car"
 
 [node name="BodyEstate" type="CollisionShape3D" parent="."]
-visible = false
 shape = SubResource("ConvexPolygonShape3D_d3b0d")
 
 [node name="BodyEstate" parent="BodyEstate" instance=ExtResource("2_tt41x")]
-material_override = ExtResource("3_mjdj2")
+material_override = SubResource("ShaderMaterial_citxm")
 
 [node name="BodyPickup" type="CollisionShape3D" parent="."]
 visible = false
 shape = SubResource("ConvexPolygonShape3D_xik31")
 
 [node name="BodyPickup" parent="BodyPickup" instance=ExtResource("3_e4t6j")]
-material_override = ExtResource("3_mjdj2")
+material_override = ExtResource("3_yih87")
 
 [node name="BodySedan" type="CollisionShape3D" parent="."]
+visible = false
 shape = SubResource("ConvexPolygonShape3D_k72yv")
 
 [node name="BodySedan" parent="BodySedan" instance=ExtResource("4_0rofg")]
-material_override = ExtResource("3_mjdj2")
+material_override = ExtResource("3_yih87")
+
+[node name="BodyVan" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("ConvexPolygonShape3D_r05bk")
+
+[node name="BodyVan" parent="BodyVan" instance=ExtResource("5_8yxi8")]
+material_override = ExtResource("3_yih87")
 
 [node name="FrontBumper" parent="." instance=ExtResource("6_lpiln")]
 material_override = ExtResource("3_mjdj2")
@@ -102,7 +129,3 @@ shape = SubResource("CylinderShape3D_3nefs")
 [node name="BodyRandomizer" type="Node" parent="." node_paths=PackedStringArray("bodies")]
 script = ExtResource("1_t7hwo")
 bodies = [NodePath("../BodyEstate"), NodePath("../BodyPickup"), NodePath("../BodySedan"), NodePath("../BodyVan")]
-
-[node name="BodyVan" parent="." instance=ExtResource("5_8yxi8")]
-visible = false
-material_override = ExtResource("3_mjdj2")
